@@ -1,0 +1,22 @@
+@import './../../assets/styles/settings';
+
+header {
+    display: flex;
+    padding: 34px 0;
+}
+
+.header-logo {
+    width: 147px;
+}
+
+.header-login {
+    margin-left: auto;
+    font-size: 18px;
+}
+
+.header-login-link {
+    color: $primary-color;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+}

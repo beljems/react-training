@@ -1,0 +1,22 @@
+.news {
+    padding-top: 99px;
+    padding-bottom: 130px;
+}
+
+.news-list {
+   list-style: none;
+   display: flex;
+   flex-wrap: wrap;
+   margin: 64px -25px 0;
+}
+
+.news-item {
+    margin: 0 25px 60px;
+    width: calc((100% / 3) - 50px);
+}
+
+.news-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
