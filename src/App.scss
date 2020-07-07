@@ -6,5 +6,8 @@
 
 @import './assets/styles/components/heading';
 @import './assets/styles/components/button';
+@import './assets/styles/components/content-header';
 
-
+.app-main {
+    padding: 99px 0 130px;
+}

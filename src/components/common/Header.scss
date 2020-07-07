@@ -1,6 +1,18 @@
 @import './../../assets/styles/settings';
 
-header {
+.header {
+    width: 100%;
+    background-color: $color-white;
+
+    &.header-absolute {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: $z-min;
+    }
+}
+
+.header-container {
     display: flex;
     padding: 34px 0;
 }

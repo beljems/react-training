@@ -12,10 +12,17 @@ body {
     color: $primary-color;
 }
 
-a {
+a,
+button {
     transition: opacity .25s ease-in-out;
 
     &:hover {
         opacity: 0.5;
     }
+}
+
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
 }

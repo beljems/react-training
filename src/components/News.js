@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 
 import './News.scss';
 
@@ -54,7 +54,18 @@ const News = () => {
     return (
         <section className="news">
             <div className="l-container">
-                <h2 className="heading">News</h2>
+                <header className="content-header">
+                    <Switch>
+                        <div className="content-header-item">
+                            <h2 className="heading">News</h2>
+                        </div>
+                        <Route path="/admin">
+                            <div className="content-header-item content-header-item-right">
+                                <Link className="button-default" to="/admin/">Create New Post</Link>
+                            </div>
+                        </Route>
+                    </Switch>
+                </header>
 
                 <ul className="news-list">
                     {articles}
