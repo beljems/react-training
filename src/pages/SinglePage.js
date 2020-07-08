@@ -1,10 +1,17 @@
 import React from 'react';
 
+import Breadcrumbs from './../components/Breadcrumbs';
+
 const SinglePage = () => {
+    const pageTitle = 'サンプルテキストサンプル ルテキストサンプルテキストサンプルテキストサンプル ルテキスト ';
+
     return (
-        <div class="l-container">
-            Single Page
-        </div>
+        <>
+            <Breadcrumbs title={pageTitle} />
+            <div class="l-container single-body">
+                Single Page
+            </div>
+        </>
     );
 }
 

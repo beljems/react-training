@@ -1,15 +1,17 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 
 import News from './../components/News';
 import SinglePage from './SinglePage';
 import NotFoundPage from './NotFoundPage';
 
 const Pages = () => {
+    let location = useLocation();
+    const path = location.pathname;
     const links = ["/", "/login", "/register"];
 
     return (
-        <div>
+        <main className={`app-main${path === '/single' ? ' app-main-single' : ''}`}>
             <Switch>
                 {links.map(link => (
                     <Route key={link} path={link} exact>
@@ -22,11 +24,9 @@ const Pages = () => {
                 <Route path="/not-found">
                     <NotFoundPage />
                 </Route>
-                <Route path="*">
-                    <Redirect to="/not-found" />
-                </Route>
+                <Redirect from="*" to="/not-found" />
             </Switch>
-        </div>
+        </main>
     );
 }
 

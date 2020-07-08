@@ -22,9 +22,7 @@ const App = () => {
                         </Route>
                     ))}
                 </Switch>
-                <main className="app-main">
-                     <Pages />
-                </main>
+                <Pages />
                 <Footer />
             </div>
         </BrowserRouter>
