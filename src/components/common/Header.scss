@@ -1,6 +1,7 @@
 @import './../../assets/styles/settings';
 
 .header {
+    padding: 34px 0;
     width: 100%;
     background-color: $color-white;
 
@@ -14,7 +15,6 @@
 
 .header-container {
     display: flex;
-    padding: 34px 0;
 }
 
 .header-logo {

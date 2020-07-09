@@ -6,17 +6,40 @@ import './Header.scss';
 import logoBlog from './../../assets/images/logo-blog.png';
 
 const Header = () => {
-    let location = useLocation();
+    const location = useLocation();
     const path = location.pathname;
+    let element = '';
+
+    const logoLink = (
+        <Link to="/">
+            <img src={logoBlog} alt="Blog" />
+        </Link>
+    );
+
+    if(path === '/') {
+        element = (
+            <h1 className="header-logo">
+                {logoLink}
+            </h1>
+        );
+    } else {
+        element = (
+           <div className="header-logo">
+                {logoLink}
+           </div>
+        );
+    }
+
+    const modifier = (
+        path !== '/single' && path !== '/not-found' ? ' header-absolute' : ''
+    );
 
     return (
-        <header className={`header${path !== '/single' && path !== '/not-found' ? ' header-absolute' : ''}`}>
+        <header className={`header${modifier}`}>
             <div className="l-container header-container">
-                <div className="header-logo">
-                    <Link to="/">
-                        <img src={logoBlog} alt="Blog" />
-                    </Link>
-                </div>
+
+                {element}
+
                 <div className="header-login">
                     <Switch>
                         <Route path="/" exact>

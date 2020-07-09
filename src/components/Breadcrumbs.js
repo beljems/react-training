@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import './Breadcrumbs.scss';
 
 const Breadcrumbs = ( props ) => {
-    const element = <li className="breadcrumbs-item breadcrumbs-item-current">
-        {props.title}
-    </li>;
+    const element = (
+        <li className="breadcrumbs-item breadcrumbs-item-current">
+            {props.title}
+        </li>
+    )
 
-    const breadcrumbsItem = (props.title !== '' && element);
+    const breadcrumbsItem = props.title !== '' && element;
 
     return (
         <div className="breadcrumbs">

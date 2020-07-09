@@ -10,14 +10,14 @@ import articleImage from './../assets/images/article-img.jpg';
 const News = () => {
     const [articleItems, setArticleItems] = useState(6);
     const articleData = [];
-    let button;
+    let button = '';
 
     const handleClick = () => {
         setArticleItems(articleItems + 6);
     }
 
     const totalArticles = () => {
-        return (articles.length === articleData.length);
+        return articles.length === articleData.length;
     }
 
     const article = {
@@ -37,9 +37,11 @@ const News = () => {
         )
     }
 
-    const articles = articleData.slice(0, articleItems).map(i => (
-        <li key={i} className="news-item">{i}</li>
-    ))
+    const articles = (
+        articleData.slice(0, articleItems).map(i => (
+            <li key={i} className="news-item">{i}</li>
+        ))
+    )
 
     if(!totalArticles()) {
         button = (
@@ -54,7 +56,7 @@ const News = () => {
     return (
         <section className="news">
             <div className="l-container">
-                <header className="content-header">
+                <div className="content-header">
                     <Switch>
                         <div className="content-header-item">
                             <h2 className="heading">News</h2>
@@ -65,7 +67,7 @@ const News = () => {
                             </div>
                         </Route>
                     </Switch>
-                </header>
+                </div>
 
                 <ul className="news-list">
                     {articles}

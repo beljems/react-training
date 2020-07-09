@@ -10,8 +10,10 @@ const Pages = () => {
     const path = location.pathname;
     const links = ["/", "/login", "/register"];
 
+    const modifier = path === '/single' ? ' app-main-single' : '';
+
     return (
-        <main className={`app-main${path === '/single' ? ' app-main-single' : ''}`}>
+        <main className={`app-main${modifier}`}>
             <Switch>
                 {links.map(link => (
                     <Route key={link} path={link} exact>

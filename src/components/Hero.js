@@ -27,14 +27,14 @@ const Hero = () => {
                 <Route path="/" exact>
                     <div className="hero-slider">
                         <ul>
-                            {heroSliderData.map((item, index) => (
-                            <li key={index} className="hero-slider-item" style={{backgroundImage: `url(${item.image})`}}>
+                            {heroSliderData.map(item => (
+                            <li key={item} className="hero-slider-item" style={{backgroundImage: `url(${item.image})`}}>
                                 <div className="l-container">
                                     <div className="hero-slider-inner">
                                         <p className="hero-slider-desc">
-                                            {item.desc.map((e, i) => (
+                                            {item.desc.map(e => (
                                                 <>
-                                                    <span key={i}>{e.text}</span>
+                                                    <span key={e}>{e.text}</span>
                                                     <br/>
                                                 </>
                                             ))}
