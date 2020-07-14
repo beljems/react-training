@@ -21,6 +21,12 @@
     text-align: right;
     background-repeat: no-repeat;
     background-size: cover;
+    opacity: 0;
+    transition: opacity .35s linear;
+
+    &.is-active {
+        opacity: 1;
+    }
 }
 
 .hero-slider-desc {
@@ -36,6 +42,7 @@
 .hero-slider-time {
     display: block;
     margin-top: 21px;
+    font-family: $font-montserrat;
     font-size: 28px;
     letter-spacing: 0.2em;
 }
@@ -50,14 +57,19 @@
     border-right: 5px solid $primary-color;
     transform: rotate(45deg) translateY(-50%);
     transform-origin: top;
+    transition: border-color $duration $easing;
     cursor: pointer;
     z-index: $z-min;
 
-    &.hero-slider-nav-button-prev {
+    &:hover {
+       border-color: rgba($primary-color, .56);
+    }
+
+    &.prev {
         transform: rotate(-135deg) translateY(-50%);
     }
 
-    &.hero-slider-nav-button-next {
+    &.next {
         right: 3.6%;
         left: auto;
     }
@@ -73,8 +85,8 @@
     justify-content: center;
     width: 100%;
     position: absolute;
-    left: 0;
     bottom: 50px;
+    left: 0;
     z-index: $z-min;
 }
 
@@ -85,8 +97,14 @@
     background-color: $primary-color;
     border-radius: 50%;
     cursor: pointer;
+    transition: background-color $duration $easing;
 
+    &:hover,
     &.is-active {
         background-color: rgba($color-white, .5);
+    }
+
+    &.is-active {
+        pointer-events: none;
     }
 }

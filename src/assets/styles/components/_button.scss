@@ -16,8 +16,9 @@
 }
 
 .button-default {
-    color: $primary-color;
+    font-family: $font-montserrat;
     font-size: 20px;
     font-weight: bold;
+    color: $primary-color;
     text-decoration: underline;
 }

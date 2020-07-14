@@ -1,12 +1,12 @@
 @charset 'utf-8';
-
 @import './assets/styles/settings';
+
+@import './assets/styles/base/base';
 
 @import './assets/styles/layout/l-container';
 
 @import './assets/styles/components/heading';
 @import './assets/styles/components/button';
-@import './assets/styles/components/content-header';
 
 .app-main {
     padding: 99px 0 130px;
@@ -15,4 +15,3 @@
         padding-top: 0;
     }
 }
-

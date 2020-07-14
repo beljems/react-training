@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 
 import './Footer.scss';
 
+import { WRAP } from './../../constants';
+
 import logoBlogWhite from './../../assets/images/logo-blog-white.png';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
-    const body = document.querySelector('#root');
 
     const handleClick = () => {
-        body.scrollIntoView({
+        WRAP.scrollIntoView({
             behavior: 'smooth'
         }, 500)
     }

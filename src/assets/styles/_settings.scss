@@ -1,10 +1,17 @@
 
-$font-yugo: "游ゴシック", "Yu Gothic", "游ゴシック体", YuGothic, sans-serif;
 $font-montserrat: 'Montserrat', sans-serif;
+$font-yugo: "游ゴシック", "Yu Gothic", $font-montserrat, "游ゴシック体", YuGothic, sans-serif;
 
 $primary-color: #101010;
 $color-white: #fff;
 $color-gray: #292929;
 $color-light: #F5F5F5;
+$color-light-gray: #707070;
+$color-dark-gray: #D6D6D6;
 
 $z-min: 1;
+$z-min2: 2;
+$z-max9: 9;
+
+$duration: .25s;
+$easing: ease-in-out;

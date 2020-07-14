@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './News.scss';
 
+import ContentHeader from './../components/ContentHeader';
 import Article from './../components/Article';
 
 import articleImage from './../assets/images/article-img.jpg';
@@ -10,15 +11,9 @@ import articleImage from './../assets/images/article-img.jpg';
 const News = () => {
     const [articleItems, setArticleItems] = useState(6);
     const articleData = [];
-    let button = '';
 
-    const handleClick = () => {
-        setArticleItems(articleItems + 6);
-    }
-
-    const totalArticles = () => {
-        return articles.length === articleData.length;
-    }
+    const handleClick = () => setArticleItems(articleItems + 6);
+    const totalArticles = () => articles.length === articleData.length;
 
     const article = {
         image: articleImage,
@@ -37,43 +32,28 @@ const News = () => {
         )
     }
 
-    const articles = (
-        articleData.slice(0, articleItems).map(i => (
-            <li key={i} className="news-item">{i}</li>
-        ))
-    )
-
-    if(!totalArticles()) {
-        button = (
-            <div className="news-button">
-                <Link className="button" to="" onClick={() => handleClick()}>
-                    Load More
-                </Link>
-            </div>
-        )
-    }
+    const articles = articleData.slice(0, articleItems).map(item => (
+        <li key={item} className="news-item">{item}</li>
+    ));
 
     return (
         <section className="news">
             <div className="l-container">
-                <div className="content-header">
-                    <Switch>
-                        <div className="content-header-item">
-                            <h2 className="heading">News</h2>
-                        </div>
-                        <Route path="/admin">
-                            <div className="content-header-item content-header-item-right">
-                                <Link className="button-default" to="/admin/">Create New Post</Link>
-                            </div>
-                        </Route>
-                    </Switch>
+                <div className="news-header">
+                    <h2 className="heading news-heading">News</h2>
+                    <ContentHeader />
                 </div>
 
                 <ul className="news-list">
                     {articles}
                 </ul>
 
-                {button}
+                {(!totalArticles()) &&
+                <div className="news-button">
+                    <Link className="button" to="" onClick={() => handleClick()}>
+                        Load More
+                    </Link>
+                </div>}
 
             </div>
         </section>

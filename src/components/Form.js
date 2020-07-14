@@ -1,65 +1,71 @@
-import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import React, { useState } from 'react';
 
 import './Form.scss';
 
-const Form = () => {
+const Form = ({ className = '' }) => {
+    const [active, setActive] = useState(true);
+
+    const handleClick = () => {
+        setActive(!active);
+    }
+
     return (
-        <div className="form">
-            <div className="form-inner">
-                <Switch>
-                     <Route path="/login">
-                        <p className="form-heading">
-                            Login
+        <div className={`form ${className}`}>
+            {active &&
+                <div className="form-inner">
+                    <p className="form-heading">
+                        Login
+                    </p>
+
+                    <form>
+                        <div className="form-group">
+                            <label className="form-label">Email</label>
+                            <input className="form-field" name="email" />
+                        </div>
+                        <div className="form-group">
+                            <label className="form-label">Password</label>
+                            <input className="form-field" name="password" />
+                        </div>
+
+                        <button className="button">Login</button>
+
+                        <p className="form-text">
+                            <button className="form-text-link" onClick={() => handleClick()}>
+                                No account yet? <span>Register Here</span>
+                            </button>
                         </p>
+                    </form>
+                </div>}
 
-                        <form>
-                            <div className="form-group">
-                                <label className="form-label" for="email">Email</label>
-                                <input className="form-field" name="email" />
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label" for="password">Password</label>
-                                <input className="form-field" name="password" />
-                            </div>
+            {!active &&
+                <div className="form-inner">
+                    <p className="form-heading">
+                        Register
+                    </p>
 
-                            <button className="button">Login</button>
+                    <form>
+                        <div className="form-group">
+                            <label className="form-label">Email</label>
+                            <input className="form-field" name="email" />
+                        </div>
+                        <div className="form-group">
+                            <label className="form-label">Password</label>
+                            <input className="form-field" name="password" />
+                        </div>
+                        <div className="form-group">
+                            <label className="form-label">Confirm Password</label>
+                            <input className="form-field" name="cpassword" />
+                        </div>
 
-                            <p className="form-text">
-                                No account yet?
-                                <Link className="form-text-link" to="/register">Register Here</Link>
-                            </p>
-                        </form>
-                    </Route>
-                    <Route path="/register">
-                        <p className="form-heading">
-                            Register
+                        <button className="button">Register</button>
+
+                        <p className="form-text">
+                            <button className="form-text-link" onClick={() => handleClick()}>
+                                Already have an account? <span>Login Here</span>
+                            </button>
                         </p>
-
-                        <form>
-                            <div className="form-group">
-                                <label className="form-label" for="email">Email</label>
-                                <input className="form-field" name="email" />
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label" for="password">Password</label>
-                                <input className="form-field" name="password" />
-                            </div>
-                            <div className="form-group">
-                                <label className="form-label" for="cpassword">Confirm Password</label>
-                                <input className="form-field" name="cpassword" />
-                            </div>
-
-                            <button className="button">Register</button>
-
-                            <p className="form-text">
-                                Already have an account?
-                                <Link className="form-text-link" to="/login">Login Here</Link>
-                            </p>
-                        </form>
-                    </Route>
-                </Switch>
-            </div>
+                    </form>
+                </div>}
         </div>
     );
 }

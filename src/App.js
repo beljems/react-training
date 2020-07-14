@@ -9,15 +9,15 @@ import Hero from './components/Hero';
 import Pages from './pages/Pages';
 
 const App = () => {
-    const links = ["/", "/login", "/register"];
+    const paths = ["/", "/login", "/register"];
 
     return (
         <BrowserRouter>
             <div className="app">
                 <Header />
                 <Switch>
-                    {links.map(link => (
-                        <Route key={link} path={link} exact>
+                    {paths.map(path => (
+                        <Route key={path} path={path} exact>
                             <Hero />
                         </Route>
                     ))}

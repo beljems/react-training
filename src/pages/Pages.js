@@ -3,12 +3,14 @@ import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 
 import News from './../components/News';
 import SinglePage from './SinglePage';
+import SingleEditPage from './SingleEditPage';
+import NewPostPage from './NewPostPage';
 import NotFoundPage from './NotFoundPage';
 
 const Pages = () => {
-    let location = useLocation();
+    const location = useLocation();
     const path = location.pathname;
-    const links = ["/", "/login", "/register"];
+    const links = ['/', '/login', '/register'];
 
     const modifier = path === '/single' ? ' app-main-single' : '';
 
@@ -22,6 +24,12 @@ const Pages = () => {
                 ))}
                 <Route path="/single">
                     <SinglePage />
+                </Route>
+                <Route path="/single-edit">
+                    <SingleEditPage />
+                </Route>
+                <Route path="/new-post">
+                    <NewPostPage />
                 </Route>
                 <Route path="/not-found">
                     <NotFoundPage />
