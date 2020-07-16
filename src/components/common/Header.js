@@ -55,7 +55,7 @@ const Header = () => {
         <>
             <header className={`header${path !== '/single' && path !== '/not-found' ? ' header-absolute' : ''}`}>
                 <div className="l-container header-container">
-                    {(path === '/') &&
+                    {path === '/' &&
                         <h1 className="header-logo">
                             {logoLink}
                         </h1>}
