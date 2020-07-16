@@ -48,7 +48,7 @@ const News = () => {
                     {articles}
                 </ul>
 
-                {(!totalArticles()) &&
+                {!totalArticles() &&
                 <div className="news-button">
                     <Link className="button" to="" onClick={() => handleClick()}>
                         Load More

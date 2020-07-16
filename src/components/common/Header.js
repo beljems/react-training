@@ -15,8 +15,6 @@ const Header = () => {
     const location = useLocation();
     const path = location.pathname;
 
-    let element;
-
     const text = active ? 'Login' : 'Close';
 
     const handleClick = () => {
@@ -53,23 +51,19 @@ const Header = () => {
         <img src={logoBlog} alt="Blog" />
     </Link>;
 
-    const modifier = path !== '/single' && path !== '/not-found' ? ' header-absolute' : '';
-
-    if(path === '/') {
-        element = <h1 className="header-logo">
-            {logoLink}
-        </h1>;
-    } else {
-        element = <div className="header-logo">
-            {logoLink}
-       </div>;
-    }
-
     return (
         <>
-            <header className={`header${modifier}`}>
+            <header className={`header${path !== '/single' && path !== '/not-found' ? ' header-absolute' : ''}`}>
                 <div className="l-container header-container">
-                    {element}
+                    {(path === '/') &&
+                        <h1 className="header-logo">
+                            {logoLink}
+                        </h1>}
+                    {path !== '/' &&
+                        <div className="header-logo">
+                            {logoLink}
+                        </div>}
+
                     <div className="header-right">
                         <button className="header-right-button" onClick={() => handleClick()}>
                             {buttonText}

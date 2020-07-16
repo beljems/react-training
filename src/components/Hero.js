@@ -23,17 +23,17 @@ const Hero = () => {
             image: heroImage,
             time: '2019.06.20',
             desc: [
-                { text: 'サンプルテキスト' },
-                { text: 'サンプル ルテキスト' },
-                { text: 'サンプルテキスト' }
+                { text: 'サンプル' },
+                { text: 'サンプ' },
+                { text: 'サンプキスト' }
             ]
         },
         {
             image: heroImage,
             time: '2019.05.20',
             desc: [
-                { text: 'サンプルテキスト' },
-                { text: 'サンプル ルテキスト' },
+                { text: 'サンテキスト' },
+                { text: 'サンテキスト' },
                 { text: 'サンプルテキスト' }
             ]
         }
@@ -43,26 +43,6 @@ const Hero = () => {
     const handlePrevClick = () => setId(id - 1);
     const handleNextClick = () => setId(id + 1);
     const handleClick = (key) => setId(key);
-
-    const items = heroSliderData.map((value, item) => (
-        <li key={item} className={`hero-slider-item ${item === id ? 'is-active' : ''}`} style={{backgroundImage: `url(${value.image})`}}>
-            <div className="l-container">
-                <div className="hero-slider-inner">
-                    <p className="hero-slider-desc">
-                        {value.desc.map(copy => (
-                            <>
-                                <span key={copy}>{copy.text}</span>
-                                <br/>
-                            </>
-                        ))}
-                    </p>
-                    <time className="hero-slider-time" dateTime={value.time}>
-                        {value.time}
-                    </time>
-                </div>
-            </div>
-        </li>
-    ));
 
     const totalSlides = heroSliderData.length;
     const pager = [];
@@ -76,7 +56,25 @@ const Hero = () => {
                 <Route path="/" exact>
                     <div className="hero-slider">
                         <ul>
-                            {items}
+                            {heroSliderData.map((value, item) => (
+                                <li key={item} className={`hero-slider-item ${item === id ? 'is-active' : ''}`} style={{backgroundImage: `url(${value.image})`}}>
+                                    <div className="l-container">
+                                        <div className="hero-slider-inner">
+                                            <p className="hero-slider-desc">
+                                                {value.desc.map(copy => (
+                                                    <>
+                                                        <span key={copy}>{copy.text}</span>
+                                                        <br/>
+                                                    </>
+                                                ))}
+                                            </p>
+                                            <time className="hero-slider-time" dateTime={value.time}>
+                                                {value.time}
+                                            </time>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
 
                         <div className="hero-slider-nav">
