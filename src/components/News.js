@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useQuery, gql } from '@apollo/client';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 import './News.scss';
 
@@ -9,55 +12,68 @@ import Article from './../components/Article';
 import articleImage from './../assets/images/article-img.jpg';
 
 const News = () => {
-    const [articleItems, setArticleItems] = useState(6);
-    const articleData = [];
+  const [articleItems, setArticleItems] = useState(6);
+  const articleData = [];
 
-    const handleClick = () => setArticleItems(articleItems + 6);
-    const totalArticles = () => articles.length === articleData.length;
-
-    const article = {
-        image: articleImage,
-        time: '2019.06.19',
-        desc: 'サンプルテキストサンプル ルテキストサンプルテキストサンプルテキストサンプル ルテキスト'
+  const GET_POSTS = gql`
+    query getPosts($pagination: Pagination) {
+      posts(pagination: $pagination){
+        id
+        title
+        content
+        image
+        createdAt
+        comments {
+          id
+          postId
+          content
+          createdAt
+        }
+      }
     }
+  `;
 
-    for(let i=1; i<=14; i++) {
-        articleData.push(
-            <Article
-                image={article.image}
-                time={article.time}
-                desc={article.desc}
-                link={`/article-${i}`}
-            />
-        )
-    }
+  const { loading, error, data } = useQuery(GET_POSTS);
 
-    const articles = articleData.slice(0, articleItems).map(item => (
-        <li key={item} className="news-item">{item}</li>
-    ));
+  if (loading) return <p className="l-container">Loading ...</p>;
+  if (error) return <p className="l-container error-message">Error ...</p>;
 
-    return (
-        <section className="news">
-            <div className="l-container">
-                <div className="news-header">
-                    <h2 className="heading news-heading">News</h2>
-                    <ContentHeader />
-                </div>
+  console.log(data.posts);
 
-                <ul className="news-list">
-                    {articles}
-                </ul>
+  const handleClick = () => setArticleItems(articleItems + 6);
+  const totalArticles = () => posts.length === data.posts.length;
 
-                {(!totalArticles()) &&
-                <div className="news-button">
-                    <Link className="button" to="" onClick={() => handleClick()}>
-                        Load More
-                    </Link>
-                </div>}
+  const postDate = data.posts.createdAt;
+  const posts = data.posts.slice(0, articleItems).map((post) => (
+    <li key={post.toString()} className="news-item">
+      <Article
+        image={post.image}
+        time={moment(postDate).format('YYYY.MM.DD')}
+        desc={post.content}
+        link={post.title}
+      />
+    </li>
+  ))
 
-            </div>
-        </section>
-    );
+  return (
+    <section className="news">
+      <div className="l-container">
+        <div className="news-header">
+          <h2 className="heading news-heading">News</h2>
+          <ContentHeader />
+        </div>
+        <ul className="news-list">
+          {posts}
+        </ul>
+        {(!totalArticles()) &&
+        <div className="news-button">
+          <Link className="button" to="" onClick={() => handleClick()}>
+            Load More
+          </Link>
+        </div>}
+      </div>
+    </section>
+  );
 }
 
 export default News;

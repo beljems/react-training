@@ -9,9 +9,14 @@
 @import './assets/styles/components/button';
 
 .app-main {
-    padding: 99px 0 130px;
+  padding: 99px 0 130px;
 
-    &.app-main-single {
-        padding-top: 0;
-    }
+  &.app-main-single {
+    padding-top: 0;
+  }
+}
+
+.error-message {
+  padding-bottom: 10px;
+  color: $color-red;
 }
