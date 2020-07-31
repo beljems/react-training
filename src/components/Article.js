@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './../components/Article.scss';
 
-const Article = (props) => {
+const Article = props => {
     return (
         <article className="article-card">
             <Link className="article-card-link" to={props.link}>

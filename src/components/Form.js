@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { authLogin } from './../redux/modules/auth/authActions';
 import './Form.scss';
 
 const Form = ({ className = '' }) => {
+    const auth = useSelector(state => state.auth.token)
+    const dispatch = useDispatch();
     const [active, setActive] = useState(true);
 
     const handleClick = () => {
-        setActive(!active);
+      setActive(!active);
+      dispatch(authLogin(1));
     }
 
     return (
@@ -16,7 +21,6 @@ const Form = ({ className = '' }) => {
                     <p className="form-heading">
                         Login
                     </p>
-
                     <form>
                         <div className="form-group">
                             <label className="form-label">Email</label>
