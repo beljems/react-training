@@ -3,30 +3,30 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import './App.scss';
 
+import { AuthProvider } from './hooks/useAuth';
+
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import Hero from './components/Hero';
 import Pages from './pages/Pages';
 
 const App = () => {
-    const paths = ["/", "/login", "/register"];
-
-    return (
-        <BrowserRouter>
-            <div className="app">
-                <Header />
-                <Switch>
-                    {paths.map(path => (
-                        <Route key={path} path={path} exact>
-                            <Hero />
-                        </Route>
-                    ))}
-                </Switch>
-                <Pages />
-                <Footer />
-            </div>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Switch>
+        <AuthProvider>
+          <div className="app">
+            <Header />
+            <Route path='/' exact>
+              <Hero />
+            </Route>
+            <Pages />
+            <Footer />
+          </div>
+        </AuthProvider>
+      </Switch>
+    </BrowserRouter>
+  );
 }
 
 export default App;

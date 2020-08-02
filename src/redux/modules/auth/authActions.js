@@ -1,8 +1,9 @@
-import { AUTH_LOGIN, AUTH_LOGOUT } from './authTypes'
+import { AUTH_LOGIN, AUTH_REGISTER } from './authTypes'
 
-export function authLogout() {
+export function authRegister(data) {
   return {
-    type: AUTH_LOGOUT
+    type: AUTH_REGISTER,
+    payload: data
   };
 }
 

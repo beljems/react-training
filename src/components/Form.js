@@ -1,77 +1,21 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
-import { authLogin } from './../redux/modules/auth/authActions';
+import FormLogin from './FormLogin';
+import FormRegister from './FormRegister';
 import './Form.scss';
 
 const Form = ({ className = '' }) => {
-    const auth = useSelector(state => state.auth.token)
-    const dispatch = useDispatch();
-    const [active, setActive] = useState(true);
+  const [active, setActive] = useState(false);
 
-    const handleClick = () => {
-      setActive(!active);
-      dispatch(authLogin(1));
-    }
+  const handleClick = () => {
+    setActive(!active);
+  }
 
-    return (
-        <div className={`form ${className}`}>
-            {active &&
-                <div className="form-inner">
-                    <p className="form-heading">
-                        Login
-                    </p>
-                    <form>
-                        <div className="form-group">
-                            <label className="form-label">Email</label>
-                            <input className="form-field" name="email" />
-                        </div>
-                        <div className="form-group">
-                            <label className="form-label">Password</label>
-                            <input className="form-field" name="password" />
-                        </div>
-
-                        <button className="button">Login</button>
-
-                        <p className="form-text">
-                            <button className="form-text-link" onClick={() => handleClick()}>
-                                No account yet? <span>Register Here</span>
-                            </button>
-                        </p>
-                    </form>
-                </div>}
-
-            {!active &&
-                <div className="form-inner">
-                    <p className="form-heading">
-                        Register
-                    </p>
-
-                    <form>
-                        <div className="form-group">
-                            <label className="form-label">Email</label>
-                            <input className="form-field" name="email" />
-                        </div>
-                        <div className="form-group">
-                            <label className="form-label">Password</label>
-                            <input className="form-field" name="password" />
-                        </div>
-                        <div className="form-group">
-                            <label className="form-label">Confirm Password</label>
-                            <input className="form-field" name="cpassword" />
-                        </div>
-
-                        <button className="button">Register</button>
-
-                        <p className="form-text">
-                            <button className="form-text-link" onClick={() => handleClick()}>
-                                Already have an account? <span>Login Here</span>
-                            </button>
-                        </p>
-                    </form>
-                </div>}
-        </div>
-    );
+  return (
+    <div className={`form ${className}`}>
+      {!active ? <FormLogin onClick={() => handleClick()}/> : <FormRegister onClick={() => handleClick()}/>}
+    </div>
+  );
 }
 
 export default Form;
