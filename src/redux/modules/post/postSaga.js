@@ -1,6 +1,7 @@
 import { put, call, getContext } from 'redux-saga/effects';
 import { queries } from './postQueries';
 import useQuery from './../../../hooks/useQuery';
+import useMutation from './../../../hooks/useMutation';
 
 import { GET_POSTS, ADD_POST } from './postTypes';
 
@@ -17,9 +18,13 @@ export function* getPosts(action) {
   }
 }
 
-function* addPostReq(data = {}) {
+// function* addPostReq(data) {
+//   return yield call(useMutation, queries.ADD_POST, data);
+// }
+
+function* addPostReq(data) {
   const client = yield getContext('client');
-  const mutation = queries.ADD_POST
+  const mutation = queries.ADD_POST;
 
   return yield call(client.mutate, { mutation,
     variables: {
@@ -29,10 +34,12 @@ function* addPostReq(data = {}) {
 }
 
 export function* addPost(action) {
+  const { data: post } = yield addPostReq(action.payload)
   try {
-    let { data: { post } } = yield addPostReq(action.payload);
+    //const { data: post } = yield addPostReq(action.payload)
     yield put({ type: `${ADD_POST}_SUCCESS`, payload: post })
   } catch(error) {
     yield put({ type: `${ADD_POST}_FAIL`, payload: error })
+    console.log(post)
   }
 }

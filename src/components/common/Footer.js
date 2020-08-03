@@ -10,7 +10,8 @@ import logoBlogWhite from './../../assets/images/logo-blog-white.png';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
     WRAP.scrollIntoView({
         behavior: 'smooth'
     }, 500)
@@ -20,7 +21,7 @@ const Footer = () => {
    <footer className="footer">
       <div className="l-container footer-container">
         <div className="footer-back-top">
-          <Link to="/" onClick={() => handleClick()}>
+          <Link to="/" onClick={(e) => handleClick(e)}>
             TOP
           </Link>
         </div>

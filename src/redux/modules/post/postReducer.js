@@ -1,9 +1,21 @@
 import { GET_POSTS, ADD_POST } from './postTypes'
 
 const INITIAL_STATE = {
-  post: [],
+  post: {
+    id: '',
+    title: '',
+    content: '',
+    image: '',
+    createdAt: '',
+    comments: {
+      id: '',
+      postId: '',
+      content: '',
+      createdAt: '',
+    },
+  },
   posts: [],
-  //processing: false,
+  processing: false,
   error: null
 }
 
@@ -18,7 +30,7 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         posts: action.payload,
-        //processing: true,
+        processing: true,
         error: null
       }
     case `${GET_POSTS}_FAIL` :
@@ -35,8 +47,7 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
     case `${ADD_POST}_SUCCESS` :
       return {
         ...state,
-        posts: action.payload.data,
-        //processing: true,
+        processing: true,
         error: null
       }
     case `${ADD_POST}_FAIL` :

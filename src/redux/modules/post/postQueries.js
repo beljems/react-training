@@ -26,8 +26,12 @@ const POSTS = gql`
 `;
 
 const ADD_POST = gql`
-  query AddPost{
-    post: addPost{
+  mutation AddPost(
+    $post: PostInput
+  ){
+    post: addPost(
+      post: $post
+    ){
       ...PostsFields
     }
   }

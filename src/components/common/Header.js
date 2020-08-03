@@ -20,6 +20,8 @@ const Header = () => {
 
   const text = isOpen ? 'Login' : 'Close';
 
+  console.log(path);
+
   const handleClick = () => {
     if(!isOpen) {
       WRAP.classList.add(IS_FIXED)
@@ -60,6 +62,7 @@ const Header = () => {
     setButtonText(text);
     setIsLoggedIn(removeToken);
     history.push(path)
+    console.log(path);
   }
 
   const logoLink = <Link to="/" onClick={() => handleRemoveClick()}>
