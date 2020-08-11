@@ -1,7 +1,13 @@
 @import './../assets/styles/settings';
 
+.article-card {
+  display: block;
+  height: 100%;
+}
+
 .article-card-link {
   display: block;
+  height: 100%;
   padding: 39px 28px;
   color: $primary-color;
   text-decoration: none;

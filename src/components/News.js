@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { AuthContext } from './../hooks/useAuth'
 
@@ -10,6 +9,7 @@ import './News.scss';
 
 import ContentHeader from './../components/ContentHeader';
 import Article from './../components/Article';
+import Button from './Button';
 
 const News = () => {
   const dispatch = useDispatch();
@@ -21,7 +21,10 @@ const News = () => {
     dispatch(getPosts());
   }, [dispatch])
 
-  const handleClick = () => setArticleItems(articleItems + 6);
+  const handleClick = (e) => {
+    e.preventDefault();
+    setArticleItems(articleItems + 6);
+  }
   const totalArticles = () => posts.length === postItems.length;
 
   const postItems = posts.slice(0, articleItems).map((post) => (
@@ -29,7 +32,7 @@ const News = () => {
       <Article
         image={post.image}
         time={post.createdAt}
-        desc={post.content}
+        title={post.title}
         link={post.title}
       />
     </li>
@@ -46,11 +49,9 @@ const News = () => {
         <ul className="news-list">
           {postItems}
         </ul>
-        {(!totalArticles()) &&
+        {!totalArticles() &&
         <div className="news-button">
-          <Link className="button" to="" onClick={() => handleClick()}>
-            Load More
-          </Link>
+          <Button onClick={(e) => handleClick(e)} />
         </div>}
       </div>
     </section>

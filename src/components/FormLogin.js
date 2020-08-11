@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authLogin } from './../redux/modules/auth/authActions'
 import { useForm } from './../hooks/useForm';
 
+import Button from './Button';
+
 const FormLogin = ({ onClick }) => {
   const location = useLocation();
   const path = location.pathname;
@@ -39,6 +41,7 @@ const FormLogin = ({ onClick }) => {
           Login
         </p>
 
+        {message !== '' ? <p class="message error">{message}</p> : ''}
         <form onSubmit={handleLoginSubmit}>
           <div className="form-group">
             <label className="form-label">Email</label>
@@ -48,9 +51,8 @@ const FormLogin = ({ onClick }) => {
             <label className="form-label">Password</label>
             <input className="form-field" type="password" name="password" id="password" value={values.password} onChange={(e) => handleChange('password', e.target.value)}/>
           </div>
-          <p class="error-message">{message}</p>
 
-          <button className="button" disabled={processing}>Login</button>
+          <Button text="Login" disabled={processing} />
         </form>
         <p className="form-text">
           <button className="form-text-link" onClick={onClick}>

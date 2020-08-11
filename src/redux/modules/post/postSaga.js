@@ -3,10 +3,41 @@ import { queries } from './postQueries';
 import useQuery from './../../../hooks/useQuery';
 import useMutation from './../../../hooks/useMutation';
 
-import { GET_POSTS, ADD_POST } from './postTypes';
+import {
+  GET_POSTS,
+  GET_POST,
+  ADD_POST,
+  UPDATE_POST
+} from './postTypes';
 
 function* getPostsReq(data = {}) {
   return yield call(useQuery, queries.POSTS, data);
+}
+
+function* getPostReq(data = {}) {
+  return yield call(useQuery, queries.POST, data);
+}
+
+function* addPostReq(data) {
+  // const client = yield getContext('client');
+  // const mutation = queries.ADD_POST;
+  // return yield call(client.mutate, { mutation,
+  //   variables: { ...data }
+  // });
+  return yield call(useMutation, queries.ADD_POST, data);
+}
+
+function* updatePostReq(data) {
+  //return yield call(useMutation, queries.UPDATE_POST, data);
+
+  const client = yield getContext('client');
+  const mutation = queries.UPDATE_POST;
+
+  return yield call(client.mutate, { mutation,
+    variables: {
+      post: { ...data }
+    }
+  });
 }
 
 export function* getPosts(action) {
@@ -18,28 +49,29 @@ export function* getPosts(action) {
   }
 }
 
-// function* addPostReq(data) {
-//   return yield call(useMutation, queries.ADD_POST, data);
-// }
-
-function* addPostReq(data) {
-  const client = yield getContext('client');
-  const mutation = queries.ADD_POST;
-
-  return yield call(client.mutate, { mutation,
-    variables: {
-      ...data
-    }
-  });
+export function* getPost(action) {
+  try {
+    let { data: { post } } = yield call(getPostReq, action.payload);
+    yield put({ type: `${GET_POST}_SUCCESS`, payload: post })
+  } catch(error) {
+    yield put({ type: `${GET_POST}_FAIL`, payload: error })
+  }
 }
 
 export function* addPost(action) {
-  const { data: post } = yield addPostReq(action.payload)
   try {
-    //const { data: post } = yield addPostReq(action.payload)
+    const { data: { post } } = yield addPostReq(action.payload)
     yield put({ type: `${ADD_POST}_SUCCESS`, payload: post })
   } catch(error) {
     yield put({ type: `${ADD_POST}_FAIL`, payload: error })
-    console.log(post)
+  }
+}
+
+export function* updatePost(action) {
+  try {
+    const { data: { post } } = yield updatePostReq(action.payload)
+    yield put({ type: `${UPDATE_POST}_SUCCESS`, payload: post })
+  } catch(error) {
+    yield put({ type: `${UPDATE_POST}_FAIL`, payload: error })
   }
 }

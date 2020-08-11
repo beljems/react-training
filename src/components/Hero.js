@@ -28,7 +28,8 @@ const Hero = () => {
   const totalSlides = 3;
   const pager = [];
   for(let i=0; i<totalSlides; i++) {
-    pager.push(<span key={i} className={`hero-slider-pager-button pager-button ${i === id ? IS_ACTIVE : ''}`} onClick={() => handleClick(i)}></span>);
+    pager.push(<span className={`hero-slider-pager-button pager-button ${i === id ? IS_ACTIVE : ''}`}
+      onClick={() => handleClick(i)}></span>);
   }
 
   return (

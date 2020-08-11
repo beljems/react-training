@@ -17,8 +17,21 @@ const POSTS_FIELDS = gql`
 `;
 
 const POSTS = gql`
-  query Posts{
-    posts: posts{
+  query GetPosts {
+    posts {
+      ...PostsFields
+    }
+  }
+  ${POSTS_FIELDS}
+`;
+
+const POST = gql`
+  query GetPost(
+    $id: Int
+  ) {
+    post(
+      id: $id
+    ) {
       ...PostsFields
     }
   }
@@ -28,10 +41,23 @@ const POSTS = gql`
 const ADD_POST = gql`
   mutation AddPost(
     $post: PostInput
-  ){
-    post: addPost(
+  ) {
+    addPost(
       post: $post
-    ){
+    ) {
+      ...PostsFields
+    }
+  }
+  ${POSTS_FIELDS}
+`;
+
+const UPDATE_POST = gql`
+  mutation UpdatePost(
+    $post: PostInput
+  ) {
+    updatePost(
+      post: $post
+    ) {
       ...PostsFields
     }
   }
@@ -40,5 +66,7 @@ const ADD_POST = gql`
 
 export const queries = {
   POSTS,
-  ADD_POST
+  POST,
+  ADD_POST,
+  UPDATE_POST
 }

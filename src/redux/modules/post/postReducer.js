@@ -1,27 +1,24 @@
-import { GET_POSTS, ADD_POST } from './postTypes'
+import {
+  GET_POSTS,
+  GET_POST,
+  ADD_POST,
+  UPDATE_POST,
+} from './postTypes'
 
 const INITIAL_STATE = {
-  post: {
-    id: '',
-    title: '',
-    content: '',
-    image: '',
-    createdAt: '',
-    comments: {
-      id: '',
-      postId: '',
-      content: '',
-      createdAt: '',
-    },
-  },
+  post: {},
   posts: [],
   processing: false,
+  updating: false,
   error: null
 }
 
 const postReducer = (state = INITIAL_STATE, action = {}) => {
   switch (action.type) {
     case GET_POSTS:
+    case GET_POST:
+    case ADD_POST:
+    case UPDATE_POST:
       return {
         ...state,
         error: null
@@ -31,29 +28,42 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         posts: action.payload,
         processing: true,
+        updating: true,
         error: null
       }
-    case `${GET_POSTS}_FAIL` :
+    case `${GET_POST}_SUCCESS` :
       return {
         ...state,
-        //processing: false,
-        error: action.payload
-      };
-    case ADD_POST:
-      return {
-        ...state,
+        post: action.payload,
+        processing: true,
+        updating: true,
         error: null
       }
     case `${ADD_POST}_SUCCESS` :
       return {
         ...state,
         processing: true,
+        updating: true,
         error: null
       }
-    case `${ADD_POST}_FAIL` :
+    case `${UPDATE_POST}_SUCCESS` :
       return {
         ...state,
-        //processing: false,
+        post: {
+          ...state.post,
+          ...action.payload },
+        processing: true,
+        updating: true,
+        error: null
+      }
+    case `${GET_POSTS}_FAIL` :
+    case `${GET_POST}_FAIL` :
+    case `${ADD_POST}_FAIL` :
+    case `${UPDATE_POST}_FAIL` :
+      return {
+        ...state,
+        updating: false,
+        processing: false,
         error: action.payload
       };
     default:

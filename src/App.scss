@@ -1,12 +1,13 @@
 @charset 'utf-8';
-@import './assets/styles/settings';
 
+@import './assets/styles/settings';
 @import './assets/styles/base/base';
 
+// layout
 @import './assets/styles/layout/l-container';
 
+// components
 @import './assets/styles/components/heading';
-@import './assets/styles/components/button';
 
 .app-main {
     padding: 99px 0 130px;
@@ -16,6 +17,40 @@
     }
 }
 
-.error-message {
-  color: $color-red;
+.message {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity $duration $easing,
+              visibility $duration $easing;
+
+  &.error,
+  &.success {
+    font-size: 15px;
+    line-height: 1.8;
+    letter-spacing: .09em;
+    padding: 8px 20px;
+    border-radius: 4px;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.error {
+    color: $color-red;
+    background-color: $color-light-red;
+  }
+
+  &.success {
+    color: $color-green;
+    background-color: $color-light-green;
+  }
+
+  &.message-single {
+    margin-top: 0;
+    margin-bottom: 30px;
+  }
+
+  &.message-comment {
+    margin-top: -25px;
+    margin-bottom: 30px;
+  }
 }

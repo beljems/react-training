@@ -10,6 +10,7 @@ export const useForm = (formCallback = '', data = {}) => {
       ...values,
       [id]: value.trim()
     });
+
     setProcessing('')
     setMessage('')
   }
@@ -19,7 +20,7 @@ export const useForm = (formCallback = '', data = {}) => {
 
     if(values.email.length !== 0 &&
       values.password.length !== 0 &&
-      values.cpassword.length !== '') {
+      values.cpassword.length !== 0) {
       if(values.password !== values.cpassword) {
         setMessage('Confirm password does not match with password!')
       } else {

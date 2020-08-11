@@ -6,34 +6,34 @@ import { AuthContext } from './../hooks/useAuth'
 import News from './../components/News';
 import SinglePage from './SinglePage';
 import SingleEditPage from './SingleEditPage';
-import NewPostPage from './NewPostPage';
+import SingleNewPage from './SingleNewPage';
 import NotFoundPage from './NotFoundPage';
 
 const Pages = () => {
-  const location = useLocation();
   const [isLoggedIn] = useContext(AuthContext);
+  const location = useLocation();
   const path = location.pathname;
 
-  const modifier = path === '/post' || path === '/post/new' ? ' app-main-single' : '';
+  let modifier = path === '/' ? '' : ' app-main-single';
 
   return (
     <main className={`app-main${modifier}`}>
       <Switch>
-        <Route path="/post" exact>
+        <Route path="/news/new" exact>
+          <SingleNewPage />
+        </Route>
+        <Route path={`/news/:id`} exact>
           <SinglePage />
         </Route>
-        <Route path="/post/single-edit" exact>
-           <SingleEditPage />
+        <Route path={`/news/edit/:id`} exact>
+          <SingleEditPage />
         </Route>
-        <Route path="/post/new" exact>
-          <NewPostPage />
-        </Route>
-        <Route path='/'>
+        <Route path='/' exact>
           <News />
         </Route>
-        <Route path="*">
-          <NotFoundPage />
+        <Route path="*" exact>
           <Redirect to="/"/>
+          /*<NotFoundPage />*/
         </Route>
       </Switch>
     </main>
