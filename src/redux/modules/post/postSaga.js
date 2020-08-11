@@ -28,16 +28,14 @@ function* addPostReq(data) {
 }
 
 function* updatePostReq(data) {
-  //return yield call(useMutation, queries.UPDATE_POST, data);
+  return yield call(useMutation, queries.UPDATE_POST, data);
 
-  const client = yield getContext('client');
-  const mutation = queries.UPDATE_POST;
-
-  return yield call(client.mutate, { mutation,
-    variables: {
-      post: { ...data }
-    }
-  });
+  // const client = yield getContext('client');
+  // const mutation = queries.UPDATE_POST;
+  //
+  // return yield call(client.mutate, { mutation,
+  //   variables: { ...data }
+  // });
 }
 
 export function* getPosts(action) {

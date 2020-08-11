@@ -49,9 +49,7 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
     case `${UPDATE_POST}_SUCCESS` :
       return {
         ...state,
-        post: {
-          ...state.post,
-          ...action.payload },
+        post: action.payload,
         processing: true,
         updating: true,
         error: null

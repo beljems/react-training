@@ -29,16 +29,13 @@ const SingleEditPage = () => {
 
   useEffect(() => {
     dispatch(getPost({ id: parseInt(id) }));
-  }, [id, dispatch])
-
-  useEffect(() => {
     setValues({
-      id: post.id,
+      id: parseInt(id),
       title: post.title,
       content: post.content,
       image: post.image,
     })
-  }, [post])
+  }, [id, post, dispatch])
 
   //console.log(post)
 
@@ -52,10 +49,8 @@ const SingleEditPage = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    console.log(values);
-
     if(values.title !== '' || values.title.length > 0) {
-      dispatch(updatePost({ ...values }))
+      dispatch(updatePost({ post: { ...values } }))
       //history.push(`/news/${post.id}`)
     } else {
       setMessage('Title must not be empty!');

@@ -16,22 +16,19 @@ import contentFeature from './../assets/images/content-feature.jpg';
 
 const SinglePage = () => {
   const [isLoggedIn] = useContext(AuthContext);
-  const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
   const { post } = useSelector(state => state.post);
-  const [values, setValues] = useState({});
 
   useEffect(() => {
     dispatch(getPost({ id: parseInt(id) }));
     console.log(post)
-    setValues({ ...post })
     //history.push(`/news/${post.id}`)
   }, [id, post, dispatch])
 
   const handleClick = e => {
     e.preventDefault();
-
     history.push(`/news/edit/${post.id}`)
   }
 

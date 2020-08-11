@@ -42,7 +42,7 @@ const ADD_POST = gql`
   mutation AddPost(
     $post: PostInput
   ) {
-    addPost(
+    post: addPost(
       post: $post
     ) {
       ...PostsFields
@@ -55,7 +55,7 @@ const UPDATE_POST = gql`
   mutation UpdatePost(
     $post: PostInput
   ) {
-    updatePost(
+    post: updatePost(
       post: $post
     ) {
       ...PostsFields
