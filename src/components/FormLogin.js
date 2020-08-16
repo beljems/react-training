@@ -30,9 +30,9 @@ const FormLogin = ({ onClick }) => {
   useEffect(() => {
     if(token === '') {
       setMessage('Email or password does not match in our database!');
-    } else {
-      history.push('/')
     }
+
+    if(Object.keys(token).length) history.push('/')
   }, [history, token, setMessage])
 
   return (

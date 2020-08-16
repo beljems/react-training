@@ -39,9 +39,7 @@ const FormRegister = ({ onClick }) => {
       if(register) {
         setMessage('Successfully registered!')
 
-        setTimeout(() => {
-          dispatch(authLogin(values))
-        }, 500)
+        setTimeout(() => dispatch(authLogin(values)), 500)
       }
     }
   }, [values, processing, setMessage, register, error, dispatch])

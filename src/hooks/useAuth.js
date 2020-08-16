@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 
 export const useAuth = props => {
-  const history = useHistory();
   const authToken = localStorage.getItem('token');
   const [isLoggedIn, setIsLoggedIn] = useState('');
 
@@ -12,9 +10,8 @@ export const useAuth = props => {
     } else {
       setIsLoggedIn(false)
     }
-
-    if(!authToken) history.push('/')
-  }, [history, authToken])
+    /*if(!authToken) history.push('/')*/
+  }, [authToken])
 
   return {
     isLoggedIn,

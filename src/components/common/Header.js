@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 
 import { IS_ACTIVE } from './../../utils/constants';
 import { useAuth } from './../../hooks/useAuth'
@@ -13,6 +13,7 @@ const Header = () => {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [buttonText, setButtonText] = useState('Login');
   const [isOpen, setIsOpen] = useState(false);
+  const history = useHistory();
   const location = useLocation();
   const path = location.pathname;
 
@@ -40,8 +41,10 @@ const Header = () => {
     localStorage.removeItem('postData')
 
     setIsOpen(false);
-    setButtonText('Login')
+    setButtonText('Login');
     setIsLoggedIn(removeToken);
+
+    history.push('/');
   }
 
   const logoLink = <Link to="/" onClick={() => handleRemoveClick()}>

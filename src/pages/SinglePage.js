@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
-import { getPost } from './../redux/modules/post/postActions'
+import { getPosts, getPost } from './../redux/modules/post/postActions'
 
 import { useAuth } from './../hooks/useAuth'
 
@@ -19,7 +19,7 @@ const SinglePage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { post } = useSelector(state => state.post);
+  const { post, updating } = useSelector(state => state.post);
   const postId = parseInt(id);
   const newData = JSON.parse(localStorage.getItem('postData'));
 

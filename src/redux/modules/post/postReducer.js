@@ -50,7 +50,6 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         processing: true,
-        updating: true,
         error: null
       }
     case `${GET_POSTS}_FAIL` :

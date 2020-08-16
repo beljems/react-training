@@ -37,6 +37,7 @@ const authReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         token: action.payload,
+        register: true,
         error: null,
       }
     case `${AUTH_LOGIN}_FAIL` :

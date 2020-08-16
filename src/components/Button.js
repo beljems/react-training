@@ -4,7 +4,7 @@ import './Button.scss'
 
 const Button = ({
   modifier = '',
-  onClick = '',
+  onClick = () => {},
   disabled = '',
   text = 'Load More',
 }) => {

@@ -17,7 +17,7 @@ import Confirmation from './../components/Confirmation';
 const SingleNewPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { post, updating } = useSelector(state => state.post);
+  const { posts, post, updating } = useSelector(state => state.post);
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState('');
   const [values, setValues] = useState({
@@ -28,9 +28,9 @@ const SingleNewPage = () => {
   const dateToday = new Date();
 
   useEffect(() => {
-    if(updating) {
-      dispatch(getPosts())
+    if(Object.keys(post).length) {
       history.push(`/news/${post.id}`)
+      dispatch(getPosts())
     }
   }, [history, updating, post, dispatch])
 
@@ -46,6 +46,8 @@ const SingleNewPage = () => {
 
     if(values.title !== '' || values.title.length > 0) {
       dispatch(addPost({ post: { ...values } }))
+
+      //history.push(`/news/${posts.length + 1}`)
     } else {
       setMessage('Title must not be empty!');
     }

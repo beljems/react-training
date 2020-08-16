@@ -6,7 +6,7 @@ import './../components/Article.scss';
 
 import articleImage from './../assets/images/article-img.jpg';
 
-const Article = ({ id, link, time, image, title }) => {
+const Article = ({ id, time, image, title }) => {
   //const newSlug = link.split(' ').join('-');
 
   return (

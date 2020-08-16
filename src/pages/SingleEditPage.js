@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
-import { getPost, updatePost } from './../redux/modules/post/postActions'
+import { getPosts, getPost, updatePost } from './../redux/modules/post/postActions'
 
 import './SinglePage.scss';
 import './SingleEditPage.scss';
