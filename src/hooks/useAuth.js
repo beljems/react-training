@@ -1,23 +1,23 @@
-import React, { useState, useEffect, createContext } from 'react';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { IS_FIXED, WRAP } from './../utils/constants';
-
-export const AuthContext = createContext();
-
-export const AuthProvider = props => {
+export const useAuth = props => {
+  const history = useHistory();
+  const authToken = localStorage.getItem('token');
   const [isLoggedIn, setIsLoggedIn] = useState('');
-  let authToken = localStorage.getItem('token');
 
   useEffect(() => {
     if(authToken) {
-      WRAP.classList.remove(IS_FIXED)
-      setIsLoggedIn(authToken)
+      setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
     }
-  }, [authToken])
 
-  return (
-    <AuthContext.Provider value={[ isLoggedIn, setIsLoggedIn ]}>
-      {props.children}
-    </AuthContext.Provider>
-  )
+    if(!authToken) history.push('/')
+  }, [history, authToken])
+
+  return {
+    isLoggedIn,
+    setIsLoggedIn
+  }
 }

@@ -31,7 +31,6 @@ const authReducer = (state = INITIAL_STATE, action = {}) => {
       //localStorage.setItem('token', action.payload)
       return {
         ...state,
-        //token: action.payload,
       }
     case `${AUTH_LOGIN}_SUCCESS` :
       localStorage.setItem('token', action.payload)
@@ -41,7 +40,6 @@ const authReducer = (state = INITIAL_STATE, action = {}) => {
         error: null,
       }
     case `${AUTH_LOGIN}_FAIL` :
-      localStorage.removeItem('token', action.payload)
       return {
         ...state,
         error: action.payload,

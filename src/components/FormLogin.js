@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { authLogin } from './../redux/modules/auth/authActions'
@@ -8,8 +8,6 @@ import { useForm } from './../hooks/useForm';
 import Button from './Button';
 
 const FormLogin = ({ onClick }) => {
-  const location = useLocation();
-  const path = location.pathname;
   const dispatch = useDispatch();
   const history = useHistory();
   const { token } = useSelector(state => state.auth);
@@ -18,21 +16,24 @@ const FormLogin = ({ onClick }) => {
     handleChange,
     handleLoginSubmit,
     processing,
-    message
+    message,
+    setMessage,
   } = useForm(event => getUser(), {
     email: '',
     password: ''
   });
-
-  let authToken = localStorage.getItem('token');
 
   function getUser() {
     dispatch(authLogin(values));
   }
 
   useEffect(() => {
-    if(token === authToken) history.push(path)
-  }, [token, authToken, history, path])
+    if(token === '') {
+      setMessage('Email or password does not match in our database!');
+    } else {
+      history.push('/')
+    }
+  }, [history, token, setMessage])
 
   return (
     <>

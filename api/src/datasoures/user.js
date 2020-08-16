@@ -26,11 +26,11 @@ class UserAPI extends DataSource {
       }
     });
 
-    if (result) {
+    if (result && result[0]) {
       return token;
     }
     else {
-      return null;
+      return '';
     }
   }
 }

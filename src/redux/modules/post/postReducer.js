@@ -28,7 +28,6 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         posts: action.payload,
         processing: true,
-        updating: true,
         error: null
       }
     case `${GET_POST}_SUCCESS` :
@@ -36,20 +35,20 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         post: action.payload,
         processing: true,
-        updating: true,
         error: null
       }
     case `${ADD_POST}_SUCCESS` :
       return {
         ...state,
+        post: action.payload,
         processing: true,
         updating: true,
         error: null
       }
     case `${UPDATE_POST}_SUCCESS` :
+      //localStorage.setItem('postData', JSON.stringify({ ...action.payload }))
       return {
         ...state,
-        post: action.payload,
         processing: true,
         updating: true,
         error: null

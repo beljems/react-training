@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { AuthContext } from './../hooks/useAuth'
+import { useAuth } from './../hooks/useAuth'
 
 import { getPosts } from './../redux/modules/post/postActions'
 
 import './News.scss';
 
-import ContentHeader from './../components/ContentHeader';
 import Article from './../components/Article';
 import Button from './Button';
 
 const News = () => {
   const dispatch = useDispatch();
-  const [isLoggedIn] = useContext(AuthContext);
-  const posts = useSelector(state => state.post.posts);
-  const [articleItems, setArticleItems] = useState(6);
+  const { isLoggedIn } = useAuth();
+  const { posts } = useSelector(state => state.post);
+  const [articleItems, setArticleItems] = useState(3);
 
   useEffect(() => {
     dispatch(getPosts());
@@ -23,13 +23,17 @@ const News = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    setArticleItems(articleItems + 6);
+    setArticleItems(articleItems + 3);
+
+    if(articleItems === 6) setArticleItems(articleItems + 6);
   }
-  const totalArticles = () => posts.length === postItems.length;
+
+  const totalArticles = () => (articleItems < 3 || articleItems === 12 || articleItems === posts.length);
 
   const postItems = posts.slice(0, articleItems).map((post) => (
     <li key={post.toString()} className="news-item">
       <Article
+        id={post.id}
         image={post.image}
         time={post.createdAt}
         title={post.title}
@@ -43,7 +47,14 @@ const News = () => {
       <div className="l-container">
         <div className="news-header">
           <h2 className="heading news-heading">News</h2>
-          {isLoggedIn ? <ContentHeader /> : ''}
+          {isLoggedIn &&
+          <div className="content-header">
+            <div className="content-header-item content-header-item-right">
+              <div className="content-header-link">
+                <Link className="button button-default" to="/news/new">Create New Post</Link>
+              </div>
+            </div>
+          </div>}
         </div>
 
         <ul className="news-list">

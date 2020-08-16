@@ -1,7 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
-
-import { AuthContext } from './../hooks/useAuth'
 
 import News from './../components/News';
 import SinglePage from './SinglePage';
@@ -10,14 +8,11 @@ import SingleNewPage from './SingleNewPage';
 import NotFoundPage from './NotFoundPage';
 
 const Pages = () => {
-  const [isLoggedIn] = useContext(AuthContext);
   const location = useLocation();
   const path = location.pathname;
 
-  let modifier = path === '/' ? '' : ' app-main-single';
-
   return (
-    <main className={`app-main${modifier}`}>
+    <main className={`app-main${path === '/' ? '' : ' app-main-single'}`}>
       <Switch>
         <Route path="/news/new" exact>
           <SingleNewPage />

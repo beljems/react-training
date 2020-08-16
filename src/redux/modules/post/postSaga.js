@@ -1,4 +1,4 @@
-import { put, call, getContext } from 'redux-saga/effects';
+import { put, call } from 'redux-saga/effects';
 import { queries } from './postQueries';
 import useQuery from './../../../hooks/useQuery';
 import useMutation from './../../../hooks/useMutation';
@@ -29,13 +29,6 @@ function* addPostReq(data) {
 
 function* updatePostReq(data) {
   return yield call(useMutation, queries.UPDATE_POST, data);
-
-  // const client = yield getContext('client');
-  // const mutation = queries.UPDATE_POST;
-  //
-  // return yield call(client.mutate, { mutation,
-  //   variables: { ...data }
-  // });
 }
 
 export function* getPosts(action) {

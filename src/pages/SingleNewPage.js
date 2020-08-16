@@ -17,7 +17,7 @@ import Confirmation from './../components/Confirmation';
 const SingleNewPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const posts = useSelector(state => state.post.posts);
+  const { post, updating } = useSelector(state => state.post);
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState('');
   const [values, setValues] = useState({
@@ -28,8 +28,11 @@ const SingleNewPage = () => {
   const dateToday = new Date();
 
   useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch])
+    if(updating) {
+      dispatch(getPosts())
+      history.push(`/news/${post.id}`)
+    }
+  }, [history, updating, post, dispatch])
 
   const handleChange = (id, value) => {
     setValues({
@@ -41,10 +44,8 @@ const SingleNewPage = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    if(values.title !== '' || values.title.length < 0) {
+    if(values.title !== '' || values.title.length > 0) {
       dispatch(addPost({ post: { ...values } }))
-
-      history.push(`/news/${posts.length + 1}`)
     } else {
       setMessage('Title must not be empty!');
     }
@@ -62,6 +63,7 @@ const SingleNewPage = () => {
       <Breadcrumbs title="Create New Post" />
       <Confirmation
         modifier={confirm ? ' is-open' : ''}
+        text={'Are you sure you want to leave the page?'}
         onClick={(e) => handleCancel(e)} />
 
       <div className="l-container single-body single-body-new">
@@ -79,7 +81,9 @@ const SingleNewPage = () => {
           </div>
 
           <span className="single-date">
-            <time dateTime={moment(dateToday).format('YYYY-MM-DD')}>{moment(dateToday).format('YYYY.MM.DD')}</time>
+            <time dateTime={moment(dateToday).format('YYYY-MM-DD')}>
+              {moment(dateToday).format('YYYY.MM.DD')}
+            </time>
           </span>
 
           <textarea className="single-edit-textarea single-edit-heading" placeholder="Title"

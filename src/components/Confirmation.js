@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-
-import Button from './Button'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import './Confirmation.scss'
 
-const Confirmation = ({ modifier, onClick }) => {
+const Confirmation = ({ modifier, link = '/', text, onClick }) => {
   return (
     <div className={`confirmation${modifier}`}>
       <Link className="close" onClick={onClick}>X</Link>
       <div>
-        <p>Are you sure you want to leave the page?</p>
+        <p>{text}</p>
         <div className="confirmation-button">
-          <Link to="/">YES</Link>
+          <Link to={link}>YES</Link>
         </div>
       </div>
     </div>
   )
+}
+
+Confirmation.propTypes = {
+  modifier: PropTypes.any,
+  link: PropTypes.any,
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 export default Confirmation;

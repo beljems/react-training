@@ -17,6 +17,6 @@ const store = createStore(
   reduxDevTools(applyMiddleware(sagaMiddleware))
 )
 
-sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga) 
 
 export default store
