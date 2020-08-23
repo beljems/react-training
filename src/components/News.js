@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { useAuth } from './../hooks/useAuth'
 
-import { getPosts } from './../redux/modules/post/postActions'
+//import { getPosts } from './../redux/modules/post/postActions'
 
 import './News.scss';
 
@@ -12,14 +12,9 @@ import Article from './../components/Article';
 import Button from './Button';
 
 const News = () => {
-  const dispatch = useDispatch();
   const { isLoggedIn } = useAuth();
   const { posts } = useSelector(state => state.post);
   const [articleItems, setArticleItems] = useState(3);
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch])
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -30,14 +25,13 @@ const News = () => {
 
   const totalArticles = () => (articleItems < 3 || articleItems === 12 || articleItems === posts.length);
 
-  const postItems = posts.slice(0, articleItems).map((post) => (
-    <li key={post.toString()} className="news-item">
+  const postItems = posts.slice(0, articleItems).map(article => (
+    <li key={article.toString()} className="news-item">
       <Article
-        id={post.id}
-        image={post.image}
-        time={post.createdAt}
-        title={post.title}
-        link={post.title}
+        id={article.id}
+        image={article.image}
+        time={article.createdAt}
+        title={article.title}
       />
     </li>
   ))

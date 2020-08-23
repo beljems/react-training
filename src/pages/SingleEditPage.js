@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+import axios from 'axios';
 
-import { getPosts, getPost, updatePost } from './../redux/modules/post/postActions'
+import { getPost, updatePost, getUpdatedPost } from './../redux/modules/post/postActions'
 
 import './SinglePage.scss';
 import './SingleEditPage.scss';
@@ -11,16 +12,17 @@ import Breadcrumbs from './../components/Breadcrumbs';
 import Comment from './../components/Comment';
 import Button from './../components/Button';
 import Confirmation from './../components/Confirmation';
+import Upload from './../components/Upload';
 
 import { DELAY } from './../utils/constants'
-import contentFeature from './../assets/images/content-feature.jpg';
 
 const SingleEditPage = () => {
   const { id } = useParams();
-  const { post } = useSelector(state => state.post);
+  const { post, postData } = useSelector(state => state.post);
   const dispatch = useDispatch();
   const history = useHistory();
   const [message, setMessage] = useState('');
+  const [image, setImage] = useState('');
   const [values, setValues] = useState({
     id: '',
     title: '',
@@ -28,21 +30,21 @@ const SingleEditPage = () => {
     image: '',
   })
   const postId = parseInt(id);
-  const newData = JSON.parse(localStorage.getItem('postData'));
   const [confirm, setConfirm] = useState(false);
 
   useEffect(initialValues, [post])
 
   useEffect(() => {
     dispatch(getPost({ id: postId }));
+    //dispatch(getPosts());
   }, [postId, dispatch])
 
   function initialValues() {
     setValues({
-      id: postId,
-      title: newData ? (newData.id === postId ? newData.title : post.title) : post.title,
-      content: newData ? (newData.id === postId ? newData.content : post.content) : post.content,
-      image: newData ? (newData.id === postId ? newData.image : post.image) : post.image,
+      id: postData.id === post.id ? postData.id : postId,
+      title: postData.id === post.id ? postData.title : post.title,
+      content: postData.id === post.id ? postData.content : post.content,
+      image: postData.id === post.id ? postData.image : post.image,
     })
   }
 
@@ -57,10 +59,27 @@ const SingleEditPage = () => {
     e.preventDefault();
 
     if(values.title !== '' || values.title.length > 0) {
-      dispatch(updatePost({ post: { ...values } }))
-      localStorage.setItem('postData', JSON.stringify({ ...values }))
+      if(image.name) {
+        const randomNum = Math.floor(Math.random() * 11)
+        const fileName = image.name.split('.').slice(0, -1).join('.')
+        const fileExt = image.name.split('.').pop();
+        values.image = (fileName+randomNum).concat(`.${fileExt}`)
+      }
 
+      dispatch(updatePost({ post: { ...values } }))
+      dispatch(getUpdatedPost({ ...values }));
+
+      async function uploadImage(e) {
+        const url = 'http://localhost:5000'
+        const formData = new FormData()
+        formData.append('file', e, values.image)
+
+        await axios.post(`${url}/file`, formData)
+      }
+
+      if(image) uploadImage(image)
       history.push(`/news/${id}`)
+
     } else {
       setMessage('Title must not be empty!');
     }
@@ -91,7 +110,7 @@ const SingleEditPage = () => {
 
   return (
     <>
-      <Breadcrumbs title={newData ? (newData.id === postId ? newData.title : post.title) : post.title} />
+      <Breadcrumbs title={postData.id === post.id ? postData.title : post.title} />
       <Confirmation
         modifier={confirm ? ' is-open' : ''}
         link={`/news/${id}`}
@@ -121,11 +140,9 @@ const SingleEditPage = () => {
           <textarea className="single-edit-textarea single-edit-heading"
             name="title" id="title" value={values.title} onChange={(e) => handleChange('title', e.target.value)}></textarea>
 
-          <div className="single-feature-image single-edit-feature-image" style={{ backgroundImage: `url(${contentFeature})` }}>
-            <div className="single-edit-feature-button">
-              <Button text="Upload Image" />
-            </div>
-          </div>
+          <Upload
+            value={values.image}
+            callback={file => setImage(file)} />
 
           <textarea className="single-edit-textarea single-edit-copy" placeholder="Content"
             name="content" id="content" value={values.content} onChange={(e) => handleChange('content', e.target.value)}></textarea>

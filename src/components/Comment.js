@@ -16,23 +16,21 @@ const Comment = ({ postId, comments }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  // let date1 = new Date(),
-  //     date2 = date;
-  //
-  // let years = moment(date1).format('YYYY') - moment(date2).format('YYYY')
-  // let months = (years * 12) + (moment(date1).format('MM') - moment(date2).format('MM'))
+  function getDurationTimeSince(date) {
+    let seconds = Math.floor((new Date() - moment(date)) / 1000),
+        years = seconds / 31536000,
+        months = seconds / 2592000,
+        days = seconds / 86400,
+        hours = seconds / 3600,
+        minutes = seconds / 60;
 
-  // function getDiffDateDuration(date1, date2) {
-  //   let years = moment(date1).format('YYYY') - moment(date2).format('YYYY'),
-  //   months = (years * 12) + (moment(date1).format('MM') - moment(date2).format('MM')),
-  //   newYears = parseInt(months / 12),
-  //   newMonths = parseInt(months % 12)
-  //
-  //   let commentMonths = newMonths < 1 ? `${newMonths} month` : newMonths > 1 ? `${newMonths} months` : '';
-  //   let commentYears = newYears < 1 ? `${newYears} year` : newYears > 1 ? `${newYears} years` : '';
-  //
-  //   return commentYears + commentMonths
-  // }
+    if(years > 1) return `${Math.floor(years)} year${Math.floor(years) > 1 ? 's' : ''} ago`;
+    if(months > 1) return `${Math.floor(months)} month${Math.floor(months) > 1 ? 's' : ''} ago`;
+    if(days > 1) return `${Math.floor(days)} day${Math.floor(days) > 1 ? 's' : ''} ago`;
+    if(hours > 1) return `${Math.floor(hours)} hour${Math.floor(hours) > 1 ? 's' : ''} ago`;
+    if(minutes > 1) return `${Math.floor(minutes)} minute${Math.floor(minutes) > 1 ? 's' : ''} ago`;
+    if(seconds > 1 || seconds === 0) return `${Math.floor(seconds)} second${Math.floor(seconds) > 1 ? 's' : ''} ago`;
+  }
 
   useEffect(() => {
     if(comment) {
@@ -49,8 +47,6 @@ const Comment = ({ postId, comments }) => {
     if(value.length > 0) {
       dispatch(addComment({ postId: postId, content: value }));
       setLoading(true);
-    } else {
-      setError(true)
     }
   }
 
@@ -64,7 +60,7 @@ const Comment = ({ postId, comments }) => {
           {contents.map(comment => (
           <li key={comment.toString()} className="comment-item">
             <p className="comment-item-text">{comment.content}</p>
-            <span className="comment-item-date">{comment.createdAt}</span>
+            <span className="comment-item-date">{getDurationTimeSince(comment.createdAt)}</span>
           </li>))}
           <li className="comment-item comment-item-textarea">
             <textarea placeholder="Write comment" value={value} onChange={(e) => setValue(e.target.value)}></textarea>

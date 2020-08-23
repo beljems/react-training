@@ -57,5 +57,6 @@ export default function* rootSaga() {
     fork(addPostSaga),
     fork(updatePostSaga),
     fork(addCommentSaga),
+    fork(addCommentSaga),
   ])
 }

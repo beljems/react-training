@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
 
 import { useSorting } from './../hooks/useSorting'
-import { getPosts } from './../redux/modules/post/postActions'
 
 import './Hero.scss';
 import { IS_ACTIVE, IS_DISABLED } from './../utils/constants';
@@ -12,14 +11,9 @@ import { IS_ACTIVE, IS_DISABLED } from './../utils/constants';
 import heroImage from './../assets/images/hero-img.jpg';
 
 const Hero = () => {
-  const dispatch = useDispatch();
   const posts = useSelector(state => state.post.posts);
   const [id, setId] = useState(0);
   const { sortItems } = useSorting(posts);
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch])
 
   const handlePrevClick = () => setId(id - 1);
   const handleNextClick = () => setId(id + 1);
@@ -32,6 +26,14 @@ const Hero = () => {
       onClick={() => handleClick(i)}></span>);
   }
 
+  const imagePath = filename => {
+    if(filename) {
+      return require(`./../assets/images/post/${filename}`)
+    } else {
+      return heroImage;
+    }
+  }
+
   return (
     <div className="hero">
       <Switch>
@@ -39,7 +41,7 @@ const Hero = () => {
           <div className="hero-slider">
             <ul>
               {sortItems.slice(0, totalSlides).map((value, item) => (
-                <li key={item} className={`hero-slider-item ${item === id ? 'is-active' : ''}`} style={{backgroundImage: `url(${heroImage})`}}>
+                <li key={item} className={`hero-slider-item ${item === id ? 'is-active' : ''}`} style={{backgroundImage: `url(${imagePath(value.image)})`}}>
                   <div className="l-container">
                     <div className="hero-slider-inner">
                       <p className="hero-slider-desc">

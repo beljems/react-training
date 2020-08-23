@@ -12,20 +12,20 @@ import Breadcrumbs from './../components/Breadcrumbs';
 import Comment from './../components/Comment';
 import Button from './../components/Button';
 
-import contentFeature from './../assets/images/content-feature.jpg';
+import noImage from './../assets/images/noimage.jpg';
 
 const SinglePage = () => {
   const { isLoggedIn } = useAuth();
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { post, updating } = useSelector(state => state.post);
+  const { post, postData, updating } = useSelector(state => state.post);
   const postId = parseInt(id);
-  const newData = JSON.parse(localStorage.getItem('postData'));
 
   useEffect(() => {
     dispatch(getPost({ id: postId }));
-  }, [postId, dispatch])
+    if(updating) dispatch(getPosts())
+  }, [postId, updating, dispatch])
 
   const handleClick = e => {
     e.preventDefault();
@@ -41,9 +41,17 @@ const SinglePage = () => {
     postDate2 = ''
   }
 
+  const imagePath = filename => {
+    if(filename) {
+      return require(`./../assets/images/post/${filename}`)
+    } else {
+      return noImage
+    }
+  }
+
   return (
     <>
-      <Breadcrumbs title={newData ? (newData.id === postId ? newData.title : post.title) : post.title} />
+      <Breadcrumbs title={postData.id === post.id ? postData.title : post.title} />
       <div className="l-container single-body">
         {isLoggedIn &&
         <div className="content-header">
@@ -60,9 +68,10 @@ const SinglePage = () => {
           </time>
         </span>
 
-        <h1>{newData ? (newData.id === postId ? newData.title : post.title) : post.title}</h1>
-        <div className="single-feature-image" style={{ backgroundImage: `url(${contentFeature})` }}></div>
-        <p>{newData ? (newData.id === postId ? newData.content : post.content) : post.content}</p>
+        <h1>{postData.id === post.id ? postData.title : post.title}</h1>
+        <div className="single-feature-image"
+          style={{ backgroundImage: `url(${postData.id === post.id ? imagePath(postData.image) : imagePath(post.image)})` }}></div>
+        <p>{postData.id === post.id ? postData.content : post.content}</p>
 
       </div>
       {post.comments &&

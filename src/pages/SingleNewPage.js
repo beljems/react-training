@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
@@ -7,12 +8,13 @@ import './SinglePage.scss';
 import './SingleEditPage.scss';
 import './SingleNewPage.scss';
 
-import { getPosts, addPost } from './../redux/modules/post/postActions'
+import { getPosts, getPost, addPost } from './../redux/modules/post/postActions'
 import { DELAY } from './../utils/constants'
 
 import Breadcrumbs from './../components/Breadcrumbs';
 import Button from './../components/Button';
 import Confirmation from './../components/Confirmation';
+import Upload from './../components/Upload';
 
 const SingleNewPage = () => {
   const dispatch = useDispatch();
@@ -20,6 +22,7 @@ const SingleNewPage = () => {
   const { posts, post, updating } = useSelector(state => state.post);
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState('');
+  const [image, setImage] = useState('');
   const [values, setValues] = useState({
     title: '',
     content: '',
@@ -28,9 +31,9 @@ const SingleNewPage = () => {
   const dateToday = new Date();
 
   useEffect(() => {
-    if(Object.keys(post).length) {
+    if(updating) {
+      dispatch(getPost({ id: post.id }))
       history.push(`/news/${post.id}`)
-      dispatch(getPosts())
     }
   }, [history, updating, post, dispatch])
 
@@ -45,9 +48,24 @@ const SingleNewPage = () => {
     e.preventDefault();
 
     if(values.title !== '' || values.title.length > 0) {
+      if(image.name) {
+        const randomNum = Math.floor(Math.random() * 11)
+        const fileName = image.name.split('.').slice(0, -1).join('.')
+        const fileExt = image.name.split('.').pop();
+        values.image = (fileName+randomNum).concat(`.${fileExt}`)
+      }
+
       dispatch(addPost({ post: { ...values } }))
 
-      //history.push(`/news/${posts.length + 1}`)
+      async function uploadImage(e) {
+        const url = 'http://localhost:5000'
+        const formData = new FormData()
+        formData.append('file', e, values.image)
+
+        await axios.post(`${url}/file`, formData)
+      }
+
+      if(image) uploadImage(image)
     } else {
       setMessage('Title must not be empty!');
     }
@@ -91,11 +109,9 @@ const SingleNewPage = () => {
           <textarea className="single-edit-textarea single-edit-heading" placeholder="Title"
             name="title" id="title" value={values.title} onChange={(e) => handleChange('title', e.target.value)}></textarea>
 
-          <div className="single-feature-image single-edit-feature-image" style={{ backgroundImage: `url('')` }}>
-            <div className="single-edit-feature-button">
-              <Button text="Upload Image" />
-            </div>
-          </div>
+          <Upload
+            value={values.image}
+            callback={file => setImage(file)} />
 
           <textarea className="single-edit-textarea single-edit-copy" placeholder="Content"
             name="content" id="content" value={values.content} onChange={(e) => handleChange('content', e.target.value)}></textarea>

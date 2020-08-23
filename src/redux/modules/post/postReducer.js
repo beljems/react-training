@@ -3,14 +3,18 @@ import {
   GET_POST,
   ADD_POST,
   UPDATE_POST,
+  GET_UPDATED_POST,
+  REFRESH_POSTS,
 } from './postTypes'
 
 const INITIAL_STATE = {
   post: {},
+  postData: {},
   posts: [],
   processing: false,
   updating: false,
-  error: null
+  up: false,
+  error: null,
 }
 
 const postReducer = (state = INITIAL_STATE, action = {}) => {
@@ -27,14 +31,14 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         posts: action.payload,
-        processing: true,
-        error: null
+        error: null,
       }
     case `${GET_POST}_SUCCESS` :
       return {
         ...state,
         post: action.payload,
         processing: true,
+        updating: true,
         error: null
       }
     case `${ADD_POST}_SUCCESS` :
@@ -50,6 +54,27 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         processing: true,
+        updating: true,
+        error: null
+      }
+    case `${GET_UPDATED_POST}` :
+      //localStorage.setItem('postData', JSON.stringify({ ...action.payload }))
+      return {
+        ...state,
+        postData: action.payload,
+        processing: true,
+        updating: false,
+        error: null
+      }
+    case `${REFRESH_POSTS}` :
+      //localStorage.setItem('postData', JSON.stringify({ ...action.payload }))
+      return {
+        ...state,
+        posts: [],
+        post: {},
+        postData: {},
+        processing: false,
+        updating: false,
         error: null
       }
     case `${GET_POSTS}_FAIL` :

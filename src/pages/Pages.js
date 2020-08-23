@@ -18,21 +18,13 @@ const Pages = () => {
   return (
     <main className={`app-main${path === '/' ? '' : ' app-main-single'}`}>
       <Switch>
-        <Route path={`/news/new`}>
-          <SingleNewPage />
-        </Route>
-        <Route path={`/news/edit/:id`} exact>
-          <SingleEditPage />
-        </Route>
         <Route path={`/news/:id`} exact>
           <SinglePage />
         </Route>
+        <ProtectedRoute path={`/news/new`} component={<SingleNewPage />}/>
+        <ProtectedRoute path={`/news/edit/:id`} component={<SingleEditPage />}/>
         <Route path='/' exact>
           <News />
-        </Route>
-        <Route path="*" exact>
-          <Redirect to="/"/>
-          {/*<NotFoundPage />*/}
         </Route>
       </Switch>
     </main>
