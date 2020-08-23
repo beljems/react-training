@@ -57,10 +57,10 @@ const Comment = ({ postId, comments }) => {
         <h2 className="heading">COMMENT</h2>
 
         <ul className="comment-list">
-          {contents.map(comment => (
-          <li key={comment.toString()} className="comment-item">
-            <p className="comment-item-text">{comment.content}</p>
-            <span className="comment-item-date">{getDurationTimeSince(comment.createdAt)}</span>
+          {contents.map(value => (
+          <li key={value.toString()} className="comment-item">
+            <p className="comment-item-text">{value.content}</p>
+            <span className="comment-item-date">{getDurationTimeSince(value.createdAt)}</span>
           </li>))}
           <li className="comment-item comment-item-textarea">
             <textarea placeholder="Write comment" value={value} onChange={(e) => setValue(e.target.value)}></textarea>

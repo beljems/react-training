@@ -10,7 +10,6 @@ export const useAuth = props => {
     } else {
       setIsLoggedIn(false)
     }
-    /*if(!authToken) history.push('/')*/
   }, [authToken])
 
   return {

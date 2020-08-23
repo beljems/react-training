@@ -76,7 +76,7 @@ const SinglePage = () => {
       </div>
       {post.comments &&
       <Comment
-        postId={post.id}
+        postId={parseInt(id)}
         comments={post.comments}
       />}
     </>
