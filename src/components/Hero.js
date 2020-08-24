@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
+import { getPosts } from './../redux/modules/post/postActions'
 import { useSorting } from './../hooks/useSorting'
 
 import './Hero.scss';
 import { IS_ACTIVE, IS_DISABLED } from './../utils/constants';
 
 import heroImage from './../assets/images/hero-img.jpg';
+//import noImage from './../assets/images/noimage.jpg';
 
 const Hero = () => {
+  const dispatch = useDispatch();
   const posts = useSelector(state => state.post.posts);
   const [id, setId] = useState(0);
   const { sortItems } = useSorting(posts);
+
+  useEffect(() => {
+    dispatch(getPosts())
+  }, [dispatch])
 
   const handlePrevClick = () => setId(id - 1);
   const handleNextClick = () => setId(id + 1);
@@ -21,17 +28,9 @@ const Hero = () => {
 
   const totalSlides = 3;
   const pager = [];
-  for(let i=0; i<totalSlides; i++) {
+  for(let i = 0; i < totalSlides; i++) {
     pager.push(<span className={`hero-slider-pager-button pager-button ${i === id ? IS_ACTIVE : ''}`}
       onClick={() => handleClick(i)}></span>);
-  }
-
-  const imagePath = filename => {
-    if(filename) {
-      return require(`./../assets/images/post/${filename}`)
-    } else {
-      return heroImage;
-    }
   }
 
   return (
@@ -41,7 +40,8 @@ const Hero = () => {
           <div className="hero-slider">
             <ul>
               {sortItems.slice(0, totalSlides).map((value, item) => (
-                <li key={item} className={`hero-slider-item ${item === id ? 'is-active' : ''}`} style={{backgroundImage: `url(${imagePath(value.image)})`}}>
+                <li key={item} className={`hero-slider-item ${item === id ? 'is-active' : ''}`}
+                  style={{backgroundImage: `url(${value.image ? value.image : heroImage})`}}>
                   <div className="l-container">
                     <div className="hero-slider-inner">
                       <p className="hero-slider-desc">

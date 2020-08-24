@@ -4,7 +4,6 @@ import {
   ADD_POST,
   UPDATE_POST,
   GET_UPDATED_POST,
-  REFRESH_POSTS,
 } from './postTypes'
 
 const INITIAL_STATE = {
@@ -13,7 +12,6 @@ const INITIAL_STATE = {
   posts: [],
   processing: false,
   updating: false,
-  up: false,
   error: null,
 }
 
@@ -27,6 +25,13 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         error: null
       }
+    case `${GET_UPDATED_POST}` :
+      return {
+        ...state,
+        postData: action.payload,
+        updating: true,
+        error: null
+      }
     case `${GET_POSTS}_SUCCESS` :
       return {
         ...state,
@@ -37,44 +42,19 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         post: action.payload,
-        processing: true,
-        updating: true,
         error: null
       }
     case `${ADD_POST}_SUCCESS` :
       return {
         ...state,
         post: action.payload,
-        processing: true,
         updating: true,
         error: null
       }
     case `${UPDATE_POST}_SUCCESS` :
-      //localStorage.setItem('postData', JSON.stringify({ ...action.payload }))
       return {
         ...state,
-        processing: true,
         updating: true,
-        error: null
-      }
-    case `${GET_UPDATED_POST}` :
-      //localStorage.setItem('postData', JSON.stringify({ ...action.payload }))
-      return {
-        ...state,
-        postData: action.payload,
-        processing: true,
-        updating: false,
-        error: null
-      }
-    case `${REFRESH_POSTS}` :
-      //localStorage.setItem('postData', JSON.stringify({ ...action.payload }))
-      return {
-        ...state,
-        posts: [],
-        post: {},
-        postData: {},
-        processing: false,
-        updating: false,
         error: null
       }
     case `${GET_POSTS}_FAIL` :
@@ -84,7 +64,6 @@ const postReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         updating: false,
-        processing: false,
         error: action.payload
       };
     default:

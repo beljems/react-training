@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
-import { getPosts, getPost } from './../redux/modules/post/postActions'
+import { getPost } from './../redux/modules/post/postActions'
 
 import { useAuth } from './../hooks/useAuth'
 
@@ -19,13 +19,12 @@ const SinglePage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { post, postData, updating } = useSelector(state => state.post);
+  const { post, postData } = useSelector(state => state.post);
   const postId = parseInt(id);
 
   useEffect(() => {
     dispatch(getPost({ id: postId }));
-    if(updating) dispatch(getPosts())
-  }, [postId, updating, dispatch])
+  }, [postId, dispatch])
 
   const handleClick = e => {
     e.preventDefault();
@@ -39,14 +38,6 @@ const SinglePage = () => {
   } else {
     postDate1 = ''
     postDate2 = ''
-  }
-
-  const imagePath = filename => {
-    if(filename) {
-      return require(`./../assets/images/post/${filename}`)
-    } else {
-      return noImage
-    }
   }
 
   return (
@@ -70,7 +61,8 @@ const SinglePage = () => {
 
         <h1>{postData.id === post.id ? postData.title : post.title}</h1>
         <div className="single-feature-image"
-          style={{ backgroundImage: `url(${postData.id === post.id ? imagePath(postData.image) : imagePath(post.image)})` }}></div>
+          style={{ backgroundImage: `url(${(postData.id !== '' || post.id !== '') ?
+            (postData.id === post.id ? postData.image : post.image) : noImage})` }}></div>
         <p>{postData.id === post.id ? postData.content : post.content}</p>
 
       </div>

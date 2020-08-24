@@ -4,7 +4,6 @@ import {
   ADD_POST,
   UPDATE_POST,
   GET_UPDATED_POST,
-  REFRESH_POSTS,
 } from './postTypes'
 
 export function getPosts(data) {
@@ -38,13 +37,6 @@ export function updatePost(data) {
 export function getUpdatedPost(data) {
   return {
     type: GET_UPDATED_POST,
-    payload: data
-  };
-}
-
-export function refreshPosts(data) {
-  return {
-    type: REFRESH_POSTS,
     payload: data
   };
 }

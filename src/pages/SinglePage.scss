@@ -22,6 +22,10 @@
   textarea {
     font-family: $font-yugo;
   }
+
+  &.single-body-new {
+     padding-bottom: 30px;
+  }
 }
 
 .single-date {

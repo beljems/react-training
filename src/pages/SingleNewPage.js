@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import moment from 'moment';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 import './SinglePage.scss';
 import './SingleEditPage.scss';
-import './SingleNewPage.scss';
 
 import { getPosts, getPost, addPost } from './../redux/modules/post/postActions'
 import { DELAY } from './../utils/constants'
@@ -19,7 +17,7 @@ import Upload from './../components/Upload';
 const SingleNewPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { posts, post, updating } = useSelector(state => state.post);
+  const { post, updating } = useSelector(state => state.post);
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState('');
   const [image, setImage] = useState('');
@@ -33,6 +31,7 @@ const SingleNewPage = () => {
   useEffect(() => {
     if(updating) {
       dispatch(getPost({ id: post.id }))
+      dispatch(getPosts())
       history.push(`/news/${post.id}`)
     }
   }, [history, updating, post, dispatch])
@@ -48,24 +47,8 @@ const SingleNewPage = () => {
     e.preventDefault();
 
     if(values.title !== '' || values.title.length > 0) {
-      if(image.name) {
-        const randomNum = Math.floor(Math.random() * 11)
-        const fileName = image.name.split('.').slice(0, -1).join('.')
-        const fileExt = image.name.split('.').pop();
-        values.image = (fileName+randomNum).concat(`.${fileExt}`)
-      }
-
+      if(image) values.image = image
       dispatch(addPost({ post: { ...values } }))
-
-      async function uploadImage(e) {
-        const url = 'http://localhost:5000'
-        const formData = new FormData()
-        formData.append('file', e, values.image)
-
-        await axios.post(`${url}/file`, formData)
-      }
-
-      if(image) uploadImage(image)
     } else {
       setMessage('Title must not be empty!');
     }
@@ -73,9 +56,17 @@ const SingleNewPage = () => {
 
   const handleCancel = e => {
     e.preventDefault();
-    setTimeout(() => {
-      setConfirm(!confirm)
-    }, DELAY)
+    if(image) values.image = image
+
+    if(values.title.length > 0 ||
+      values.content.length > 0 ||
+      values.image.length > 0) {
+      setTimeout(() => {
+        setConfirm(!confirm)
+      }, DELAY)
+    } else {
+      history.push(`/`)
+    }
   }
 
   return (
@@ -83,7 +74,7 @@ const SingleNewPage = () => {
       <Breadcrumbs title="Create New Post" />
       <Confirmation
         modifier={confirm ? ' is-open' : ''}
-        text={'Are you sure you want to leave the page?'}
+        text={'Are you sure you want to discard changes?'}
         onClick={(e) => handleCancel(e)} />
 
       <div className="l-container single-body single-body-new">
@@ -109,9 +100,7 @@ const SingleNewPage = () => {
           <textarea className="single-edit-textarea single-edit-heading" placeholder="Title"
             name="title" id="title" value={values.title} onChange={(e) => handleChange('title', e.target.value)}></textarea>
 
-          <Upload
-            value={values.image}
-            callback={file => setImage(file)} />
+          <Upload callback={file => setImage(file)} />
 
           <textarea className="single-edit-textarea single-edit-copy" placeholder="Content"
             name="content" id="content" value={values.content} onChange={(e) => handleChange('content', e.target.value)}></textarea>

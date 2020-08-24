@@ -27,10 +27,6 @@ export function* authLoginSaga() {
   yield takeLatest(AUTH_LOGIN, authLogin)
 }
 
-export function* getPostsSaga() {
-  yield takeLatest(GET_POSTS, getPosts)
-}
-
 export function* getPostSaga() {
   yield takeLatest(GET_POST, getPost)
 }
@@ -43,6 +39,10 @@ export function* updatePostSaga() {
   yield takeLatest(UPDATE_POST, updatePost)
 }
 
+export function* getPostsSaga() {
+  yield takeLatest(GET_POSTS, getPosts)
+}
+
 export function* addCommentSaga() {
   yield takeLatest(ADD_COMMENT, addComment)
 }
@@ -52,11 +52,10 @@ export default function* rootSaga() {
   yield all([
     fork(authRegisterSaga),
     fork(authLoginSaga),
-    fork(getPostsSaga),
     fork(getPostSaga),
     fork(addPostSaga),
     fork(updatePostSaga),
-    fork(addCommentSaga),
+    fork(getPostsSaga),
     fork(addCommentSaga),
   ])
 }

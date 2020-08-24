@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
-import axios from 'axios';
 
-import { getPost, updatePost, getUpdatedPost } from './../redux/modules/post/postActions'
+import { updatePost, getUpdatedPost } from './../redux/modules/post/postActions'
 
 import './SinglePage.scss';
 import './SingleEditPage.scss';
@@ -34,10 +33,9 @@ const SingleEditPage = () => {
 
   useEffect(initialValues, [post])
 
-  useEffect(() => {
-    dispatch(getPost({ id: postId }));
-    //dispatch(getPosts());
-  }, [postId, dispatch])
+  // useEffect(() => {
+  //   dispatch(getPost({ id: postId }));
+  // }, [postId, dispatch])
 
   function initialValues() {
     setValues({
@@ -59,25 +57,11 @@ const SingleEditPage = () => {
     e.preventDefault();
 
     if(values.title !== '' || values.title.length > 0) {
-      if(image.name) {
-        const randomNum = Math.floor(Math.random() * 11)
-        const fileName = image.name.split('.').slice(0, -1).join('.')
-        const fileExt = image.name.split('.').pop();
-        values.image = (fileName+randomNum).concat(`.${fileExt}`)
-      }
+      if(image) values.image = image
 
       dispatch(updatePost({ post: { ...values } }))
       dispatch(getUpdatedPost({ ...values }));
-
-      async function uploadImage(e) {
-        const url = 'http://localhost:5000'
-        const formData = new FormData()
-        formData.append('file', e, values.image)
-
-        await axios.post(`${url}/file`, formData)
-      }
-
-      if(image) uploadImage(image)
+      //dispatchPosts()
       history.push(`/news/${id}`)
 
     } else {
@@ -87,6 +71,7 @@ const SingleEditPage = () => {
 
   const handleCancel = e => {
     e.preventDefault();
+    if(image) values.image = image
 
     if(values.title !== post.title ||
       values.content !== post.content ||
@@ -140,9 +125,7 @@ const SingleEditPage = () => {
           <textarea className="single-edit-textarea single-edit-heading"
             name="title" id="title" value={values.title} onChange={(e) => handleChange('title', e.target.value)}></textarea>
 
-          <Upload
-            value={values.image}
-            callback={file => setImage(file)} />
+          <Upload callback={file => setImage(file)} />
 
           <textarea className="single-edit-textarea single-edit-copy" placeholder="Content"
             name="content" id="content" value={values.content} onChange={(e) => handleChange('content', e.target.value)}></textarea>

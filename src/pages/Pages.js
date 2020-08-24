@@ -7,7 +7,6 @@ import News from './../components/News';
 import SinglePage from './SinglePage';
 import SingleEditPage from './SingleEditPage';
 import SingleNewPage from './SingleNewPage';
-import NotFoundPage from './NotFoundPage';
 
 const Pages = () => {
   const { isLoggedIn } = useAuth();

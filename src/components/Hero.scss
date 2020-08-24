@@ -25,17 +25,24 @@
   transition: opacity .35s linear;
 
   &.is-active {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
 .hero-slider-desc {
+  margin-left: auto;
+  width: 585px;
   font-size:60px;
   color: $color-white;
 
   span {
-    padding: 8px 17px 3px;
+    // padding: 8px 17px 3px;
+    padding: 0px 17px 6px;
     background-color: $primary-color;
+    box-shadow: -10px 0px 0 7px $primary-color,
+                10px 0px 0 7px $primary-color;
+    box-decoration-break: clone;
+    line-height: 1.7;
   }
 }
 
@@ -101,10 +108,10 @@
 
   &:hover,
   &.is-active {
-      background-color: rgba($color-white, .5);
+    background-color: rgba($color-white, .5);
   }
 
   &.is-active {
-      pointer-events: none;
+    pointer-events: none;
   }
 }

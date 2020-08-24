@@ -10,14 +10,12 @@ const Upload = ({ value, callback }) => {
   const handleEnter = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    //console.log("enter!");
     setActive(true)
   };
 
   const handleOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    //console.log("over!");
     setActive(true)
   };
 
@@ -26,12 +24,12 @@ const Upload = ({ value, callback }) => {
     e.stopPropagation();
     const [file] = e.target.files || e.dataTransfer.files;
 
+    // for image preview
     const image = URL.createObjectURL(file);
     setPreview(image)
     setActive(false)
 
-    // passing file to parent
-    callback(file)
+    uploadFile(file)
   };
 
   const handleLeave = (e) => {
@@ -40,6 +38,21 @@ const Upload = ({ value, callback }) => {
     setActive(false)
     console.log("leave!");
   };
+
+  function uploadFile(file) {
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+
+    reader.onload = () => {
+      const fileRes = btoa(reader.result)
+      // passing data to parent
+      callback(`data:image/jpg;base64,${fileRes}`);
+    };
+
+    reader.onerror = () => {
+      console.log('There is a problem while uploading...');
+    };
+  }
 
   return (
     <div
