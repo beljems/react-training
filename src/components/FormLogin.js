@@ -1,46 +1,23 @@
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { authLogin } from './../redux/modules/auth/authActions'
+import React from 'react';
 import { useForm } from './../hooks/useForm';
-
 import Button from './Button';
 
 const FormLogin = ({ onClick }) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { token } = useSelector(state => state.auth);
   const {
     values,
     handleChange,
     handleLoginSubmit,
     processing,
-    message,
-    setMessage,
-  } = useForm(event => getUser(), {
+    message
+  } = useForm({
     email: '',
     password: ''
   });
 
-  function getUser() {
-    dispatch(authLogin(values));
-  }
-
-  useEffect(() => {
-    if(token === '') {
-      setMessage('Email or password does not match in our database!');
-    }
-
-    if(Object.keys(token).length) history.push('/')
-  }, [history, token, setMessage])
-
   return (
     <>
       <div className="form-inner">
-        <p className="form-heading">
-          Login
-        </p>
+        <p className="form-heading">Login</p>
 
         {message !== '' ? <p class="message error">{message}</p> : ''}
         <form onSubmit={handleLoginSubmit}>

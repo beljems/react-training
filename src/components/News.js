@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import { useAuth } from './../hooks/useAuth'
 import { getPosts } from './../redux/modules/post/postActions'
 
-import './News.scss';
 import Article from './Article';
 import Button from './Button';
+import './News.scss';
 
 const News = () => {
   const dispatch = useDispatch();

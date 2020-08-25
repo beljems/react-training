@@ -1,58 +1,25 @@
-import React, { useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { authRegister, authLogin } from './../redux/modules/auth/authActions'
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { useForm } from './../hooks/useForm';
-
 import Button from './Button';
 
 const FormRegister = ({ onClick }) => {
-  const location = useLocation();
-  const path = location.pathname;
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { token, register, error } = useSelector(state => state.auth);
+  const { register } = useSelector(state => state.auth);
   const {
     values,
     handleChange,
     handleSubmit,
     processing,
-    message,
-    setMessage
-  } = useForm(event => registerUser(), {
+    message
+  } = useForm({
     email: '',
     password: '',
     cpassword: '',
   });
 
-  let authToken = localStorage.getItem('token');
-
-  function registerUser() {
-    dispatch(authRegister(values));
-  }
-
-  useEffect(() => {
-    if(error !== null) {
-      setMessage('Email is already taken!')
-    } else {
-      if(register) {
-        setMessage('Successfully registered!')
-
-        setTimeout(() => dispatch(authLogin(values)), 500)
-      }
-    }
-  }, [values, processing, setMessage, register, error, dispatch])
-
-  useEffect(() => {
-    if(token === authToken) history.push(path)
-  }, [token, authToken, history, path])
-
   return (
     <div className="form-inner">
-      <p className="form-heading">
-        Register
-      </p>
+      <p className="form-heading">Register</p>
 
       {message !== '' ? <p class={`message ${register ? 'success' : 'error'}`}>{message}</p> : ''}
       <form onSubmit={handleSubmit}>

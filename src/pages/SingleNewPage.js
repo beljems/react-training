@@ -3,18 +3,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
-import './SinglePage.scss';
-import './SingleEditPage.scss';
-
 import { getPosts, getPost, addPost } from './../redux/modules/post/postActions'
-import { DELAY } from './../utils/constants'
 
 import Breadcrumbs from './../components/Breadcrumbs';
 import Button from './../components/Button';
 import Confirmation from './../components/Confirmation';
 import Upload from './../components/Upload';
+import './SinglePage.scss';
+import './SingleEditPage.scss';
+
+import { DELAY } from './../utils/constants'
 
 const SingleNewPage = () => {
+  const dateToday = new Date();
   const dispatch = useDispatch();
   const history = useHistory();
   const { post, updating } = useSelector(state => state.post);
@@ -26,7 +27,6 @@ const SingleNewPage = () => {
     content: '',
     image: '',
   });
-  const dateToday = new Date();
 
   useEffect(() => {
     if(updating) {
@@ -61,9 +61,7 @@ const SingleNewPage = () => {
     if(values.title.length > 0 ||
       values.content.length > 0 ||
       values.image.length > 0) {
-      setTimeout(() => {
-        setConfirm(!confirm)
-      }, DELAY)
+      setTimeout(() => setConfirm(!confirm), DELAY)
     } else {
       history.push(`/`)
     }

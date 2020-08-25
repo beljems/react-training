@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 
-import { IS_ACTIVE } from './../utils/constants';
 import { useAuth } from './../hooks/useAuth'
 
 import Form from './Form';
 import './Header.scss';
 
+import { IS_ACTIVE } from './../utils/constants';
 import logoBlog from './../assets/images/logo-blog.png';
 
 const Header = () => {
@@ -28,17 +28,10 @@ const Header = () => {
     if(isLoggedIn) document.body.style.overflow = '';
   }, [isLoggedIn, isOpen])
 
-  const handleClick = () => {
-    setIsOpen(!isOpen)
-  }
-
-  const handleRemoveClick = () => {
-    setIsOpen(false);
-  }
-
+  const handleClick = () => setIsOpen(!isOpen)
+  const handleRemoveClick = () => setIsOpen(false);
   const handleLogoutClick = () => {
     const removeToken = localStorage.removeItem('token');
-    localStorage.removeItem('postData')
 
     setIsOpen(false);
     setButtonText('Login');

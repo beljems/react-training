@@ -5,13 +5,13 @@ import moment from 'moment';
 
 import { updatePost, getUpdatedPost } from './../redux/modules/post/postActions'
 
-import './SinglePage.scss';
-import './SingleEditPage.scss';
 import Breadcrumbs from './../components/Breadcrumbs';
 import Comment from './../components/Comment';
 import Button from './../components/Button';
 import Confirmation from './../components/Confirmation';
 import Upload from './../components/Upload';
+import './SinglePage.scss';
+import './SingleEditPage.scss';
 
 import { DELAY } from './../utils/constants'
 
@@ -61,7 +61,6 @@ const SingleEditPage = () => {
 
       dispatch(updatePost({ post: { ...values } }))
       dispatch(getUpdatedPost({ ...values }));
-      //dispatchPosts()
       history.push(`/news/${id}`)
 
     } else {
@@ -76,9 +75,7 @@ const SingleEditPage = () => {
     if(values.title !== post.title ||
       values.content !== post.content ||
       values.image !== post.image) {
-      setTimeout(() => {
-        setConfirm(!confirm)
-      }, DELAY)
+      setTimeout(() => setConfirm(!confirm), DELAY)
     } else {
       history.push(`/news/${id}`)
     }

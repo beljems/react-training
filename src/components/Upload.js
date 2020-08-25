@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
 
-import './Upload.scss'
 import Button from './Button';
+import './Upload.scss'
 
 const Upload = ({ value, callback }) => {
   const [preview, setPreview] = useState('')
   const [active, setActive] = useState(false)
 
-  const handleEnter = (e) => {
+  const handleEnter = e => {
     e.preventDefault();
     e.stopPropagation();
     setActive(true)
   };
 
-  const handleOver = (e) => {
+  const handleOver = e => {
     e.preventDefault();
     e.stopPropagation();
     setActive(true)
@@ -32,7 +32,7 @@ const Upload = ({ value, callback }) => {
     uploadFile(file)
   };
 
-  const handleLeave = (e) => {
+  const handleLeave = e => {
     e.preventDefault();
     e.stopPropagation();
     setActive(false)

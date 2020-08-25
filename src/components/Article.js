@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import './../components/Article.scss';
-
 import noImage from './../assets/images/noimage.jpg';
 
 const Article = ({ id, time, image, title }) => {

@@ -18,7 +18,6 @@ const Button = ({
   )
 }
 
-
 Button.propTypes = {
   modifier: PropTypes.any,
   disabled: PropTypes.bool,

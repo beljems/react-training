@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import './Confirmation.scss'
 
-const Confirmation = ({ modifier, link = "/", text, onClick }) => {
+const Confirmation = ({ modifier, link = "/", text, onClick = () => {} }) => {
   return (
     <div className={`confirmation${modifier}`}>
       <span className="close" onClick={onClick}>X</span>

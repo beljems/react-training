@@ -1,9 +1,38 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-export const useForm = (formCallback = '', data = {}) => {
+import { authRegister, authLogin } from './../redux/modules/auth/authActions'
+
+export const useForm = (data = {}) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { token, register, error } = useSelector(state => state.auth);
   const [processing, setProcessing] = useState(false);
   const [message, setMessage] = useState('');
   const [values, setValues] = useState(data);
+
+  useEffect(() => {
+    if(error !== null) {
+      setMessage('Email is already taken!')
+    }
+    if(register) {
+      setMessage('Successfully registered!')
+      setTimeout(() => {
+        setMessage('')
+        dispatch(authLogin(values))
+      }, 500)
+      history.push('/')
+    }
+  }, [history, values, error, register, dispatch])
+
+  useEffect(() => {
+    if(token === '') {
+      setMessage('Email or password does not match in our database!')
+    } else {
+      history.push('/')
+    }
+  }, [history, token])
 
   const handleChange = (id, value) => {
     setValues({
@@ -26,8 +55,7 @@ export const useForm = (formCallback = '', data = {}) => {
       } else {
         setProcessing(true);
         setMessage('');
-        formCallback()
-        //dispatch(authRegister(values))
+        dispatch(authRegister(values))
       }
     } else {
       setMessage('Fields must not be blank!')
@@ -41,8 +69,7 @@ export const useForm = (formCallback = '', data = {}) => {
       values.password.length !== 0) {
       setProcessing(true);
       setMessage('');
-      formCallback()
-      //dispatch(authLogin(values))
+      dispatch(authLogin(values))
     } else {
       setMessage('Fields must not be blank!')
     }
@@ -54,8 +81,7 @@ export const useForm = (formCallback = '', data = {}) => {
     handleSubmit,
     handleLoginSubmit,
     processing,
-    message,
-    setMessage
+    message
   }
 
 }

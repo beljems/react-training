@@ -4,9 +4,9 @@ import moment from 'moment';
 
 import { addComment } from './../redux/modules/comment/commentActions'
 
-import './Comment.scss';
 import Button from './Button';
 import Loading from './Loading'
+import './Comment.scss';
 
 const Comment = ({ postId, comments }) => {
   const dispatch = useDispatch();

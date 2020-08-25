@@ -4,13 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
 import { getPost } from './../redux/modules/post/postActions'
-
 import { useAuth } from './../hooks/useAuth'
 
-import './SinglePage.scss';
 import Breadcrumbs from './../components/Breadcrumbs';
 import Comment from './../components/Comment';
 import Button from './../components/Button';
+import './SinglePage.scss';
 
 import noImage from './../assets/images/noimage.jpg';
 

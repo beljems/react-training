@@ -1,7 +1,7 @@
 import { AUTH_LOGIN, AUTH_REGISTER } from './authTypes'
 
 const INITIAL_STATE = {
-  token: {},
+  token: null,
   values: {},
   register: false,
   error: null,
@@ -37,7 +37,7 @@ const authReducer = (state = INITIAL_STATE, action = {}) => {
       return {
         ...state,
         token: action.payload,
-        register: true,
+        register: false,
         error: null,
       }
     case `${AUTH_LOGIN}_FAIL` :
