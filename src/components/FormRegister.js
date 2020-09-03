@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useForm } from './../hooks/useForm';
+import useForm from './../hooks/useForm';
+import { Link } from 'react-router-dom';
 import Button from './Button';
 
 const FormRegister = ({ onClick }) => {
@@ -36,12 +37,12 @@ const FormRegister = ({ onClick }) => {
           <input className="form-field" type="password" name="cpassword" id="cpassword" value={values.cpassword} onChange={(e) => handleChange('cpassword', e.target.value)}/>
         </div>
 
-        <Button text="Register" disabled={processing} />
+        <Button label="Register" disabled={processing} />
       </form>
       <p className="form-text">
-        <button className="form-text-link" onClick={onClick}>
+        <Link to="/" className="form-text-link" onClick={onClick}>
           Already have an account? <span>Login Here</span>
-        </button>
+        </Link>
       </p>
     </div>
   );

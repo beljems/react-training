@@ -64,9 +64,27 @@ const UPDATE_POST = gql`
   ${POSTS_FIELDS}
 `;
 
+const ADD_COMMENT = gql`
+  mutation AddComment(
+    $postId: Int!,
+    $content: String!
+  ) {
+    comment: addComment(
+      postId: $postId,
+      content: $content
+    ) {
+      id
+      postId
+      content
+      createdAt
+    }
+  }
+`;
+
 export const queries = {
   POSTS,
   POST,
   ADD_POST,
-  UPDATE_POST
+  UPDATE_POST,
+  ADD_COMMENT
 }

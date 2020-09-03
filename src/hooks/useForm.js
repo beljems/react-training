@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { authRegister, authLogin } from './../redux/modules/auth/authActions'
 
-export const useForm = (data = {}) => {
+export default (data = {}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { token, register, error } = useSelector(state => state.auth);
@@ -13,18 +13,14 @@ export const useForm = (data = {}) => {
   const [values, setValues] = useState(data);
 
   useEffect(() => {
-    if(error !== null) {
-      setMessage('Email is already taken!')
-    }
     if(register) {
       setMessage('Successfully registered!')
       setTimeout(() => {
         setMessage('')
         dispatch(authLogin(values))
       }, 500)
-      history.push('/')
     }
-  }, [history, values, error, register, dispatch])
+  }, [values, register, dispatch])
 
   useEffect(() => {
     if(token === '') {
@@ -33,6 +29,12 @@ export const useForm = (data = {}) => {
       history.push('/')
     }
   }, [history, token])
+
+  useEffect(() => {
+    if(error !== null) {
+      setMessage('Email is already taken!')
+    }
+  }, [error])
 
   const handleChange = (id, value) => {
     setValues({
@@ -50,7 +52,11 @@ export const useForm = (data = {}) => {
     if(values.email.length !== 0 &&
       values.password.length !== 0 &&
       values.cpassword.length !== 0) {
-      if(values.password !== values.cpassword) {
+      const mailFormat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if(!values.email.match(mailFormat)) {
+        setMessage('Not a valid email!')
+      }
+      else if(values.password !== values.cpassword) {
         setMessage('Confirm password does not match with password!')
       } else {
         setProcessing(true);
@@ -81,7 +87,7 @@ export const useForm = (data = {}) => {
     handleSubmit,
     handleLoginSubmit,
     processing,
-    message
+    message,
   }
 
 }

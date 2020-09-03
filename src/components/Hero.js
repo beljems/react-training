@@ -1,35 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
-import { getPosts } from './../redux/modules/post/postActions'
-import { useSorting } from './../hooks/useSorting'
+import useSorting from './../hooks/useSorting'
+import usePost from './../hooks/usePost'
 
 import './Hero.scss';
 import { IS_ACTIVE, IS_DISABLED } from './../utils/constants';
 
 import heroImage from './../assets/images/hero-img.jpg';
-//import noImage from './../assets/images/noimage.jpg';
 
 const Hero = () => {
-  const dispatch = useDispatch();
-  const posts = useSelector(state => state.post.posts);
+  const { posts } = usePost();
   const [id, setId] = useState(0);
   const { sortItems } = useSorting(posts);
 
-  useEffect(() => {
-    dispatch(getPosts())
-  }, [dispatch])
-
-  const handlePrevClick = () => setId(id - 1);
-  const handleNextClick = () => setId(id + 1);
+  const handlePrevClick = () => setId(prevId => prevId - 1);
+  const handleNextClick = () => setId(prevId => prevId + 1);
   const handleClick = (key) => setId(key);
 
   const totalSlides = 3;
   const pager = [];
   for(let i = 0; i < totalSlides; i++) {
-    pager.push(<span className={`hero-slider-pager-button pager-button ${i === id ? IS_ACTIVE : ''}`}
+    pager.push(<span key={i} className={`hero-slider-pager-button pager-button ${i === id ? IS_ACTIVE : ''}`}
       onClick={() => handleClick(i)}></span>);
   }
 

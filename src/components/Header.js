@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 
-import { useAuth } from './../hooks/useAuth'
+import useAuth from './../hooks/useAuth'
 
 import Form from './Form';
 import './Header.scss';
@@ -18,7 +18,7 @@ const Header = () => {
   const path = location.pathname;
 
   useEffect(() => {
-    if(isOpen === true) {
+    if(isOpen) {
       document.body.style.overflow = 'hidden';
       setButtonText('Close')
     } else {
@@ -72,7 +72,7 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <Form className={`${!isLoggedIn ? (isOpen ? IS_ACTIVE : '') : ''}`}/>
+      {!isLoggedIn && <Form className={`${(isOpen ? IS_ACTIVE : '')}`} />}
     </>
   );
 }

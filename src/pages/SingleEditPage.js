@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
-import { updatePost, getUpdatedPost } from './../redux/modules/post/postActions'
+import usePost from './../hooks/usePost'
 
 import Breadcrumbs from './../components/Breadcrumbs';
 import Comment from './../components/Comment';
@@ -17,9 +16,8 @@ import { DELAY } from './../utils/constants'
 
 const SingleEditPage = () => {
   const { id } = useParams();
-  const { post, postData } = useSelector(state => state.post);
-  const dispatch = useDispatch();
   const history = useHistory();
+  const { post, newPost, updatePost, getUpdatedPost } = usePost(id);
   const [message, setMessage] = useState('');
   const [image, setImage] = useState('');
   const [values, setValues] = useState({
@@ -28,21 +26,16 @@ const SingleEditPage = () => {
     content: '',
     image: '',
   })
-  const postId = parseInt(id);
   const [confirm, setConfirm] = useState(false);
 
-  useEffect(initialValues, [post])
-
-  // useEffect(() => {
-  //   dispatch(getPost({ id: postId }));
-  // }, [postId, dispatch])
+  useEffect(initialValues, [newPost])
 
   function initialValues() {
     setValues({
-      id: postData.id === post.id ? postData.id : postId,
-      title: postData.id === post.id ? postData.title : post.title,
-      content: postData.id === post.id ? postData.content : post.content,
-      image: postData.id === post.id ? postData.image : post.image,
+      id: parseInt(id),
+      title: newPost.title,
+      content: newPost.content,
+      image: newPost.image,
     })
   }
 
@@ -59,8 +52,8 @@ const SingleEditPage = () => {
     if(values.title !== '' || values.title.length > 0) {
       if(image) values.image = image
 
-      dispatch(updatePost({ post: { ...values } }))
-      dispatch(getUpdatedPost({ ...values }));
+      updatePost({ post: { ...values } })
+      getUpdatedPost({ ...values })
       history.push(`/news/${id}`)
 
     } else {
@@ -72,9 +65,9 @@ const SingleEditPage = () => {
     e.preventDefault();
     if(image) values.image = image
 
-    if(values.title !== post.title ||
-      values.content !== post.content ||
-      values.image !== post.image) {
+    if(values.title !== newPost.title ||
+      values.content !== newPost.content ||
+      values.image !== newPost.image) {
       setTimeout(() => setConfirm(!confirm), DELAY)
     } else {
       history.push(`/news/${id}`)
@@ -82,9 +75,9 @@ const SingleEditPage = () => {
   }
 
   let postDate1, postDate2;
-  if(post.createdAt) {
-    postDate1 = moment(post.createdAt).format('YYYY-MM-DD')
-    postDate2 = moment(post.createdAt).format('YYYY.MM.DD')
+  if(newPost.createdAt) {
+    postDate1 = moment(newPost.createdAt).format('YYYY-MM-DD')
+    postDate2 = moment(newPost.createdAt).format('YYYY.MM.DD')
   } else {
     postDate1 = ''
     postDate2 = ''
@@ -92,7 +85,7 @@ const SingleEditPage = () => {
 
   return (
     <>
-      <Breadcrumbs title={postData.id === post.id ? postData.title : post.title} />
+      <Breadcrumbs title={newPost.title} />
       <Confirmation
         modifier={confirm ? ' is-open' : ''}
         link={`/news/${id}`}
@@ -105,10 +98,10 @@ const SingleEditPage = () => {
           <div className="content-header">
             <div className="content-header-item content-header-item-right">
               <div className="content-header-link">
-                <Button modifier="button-default" text="Save Post" />
+                <Button modifier="button-default" label="Save Post" />
               </div>
               <div className="content-header-link">
-                <Button modifier="button-default" text="Cancel" onClick={(e) => handleCancel(e)} />
+                <Button modifier="button-default" label="Cancel" onClick={(e) => handleCancel(e)} />
               </div>
             </div>
           </div>
@@ -130,7 +123,7 @@ const SingleEditPage = () => {
      </div>
      {post.comments &&
        <Comment
-         postId={post.id}
+         postId={id}
          comments={post.comments}
        />}
     </>

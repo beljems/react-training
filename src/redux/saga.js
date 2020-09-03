@@ -10,14 +10,12 @@ import {
   GET_POSTS,
   GET_POST,
   ADD_POST,
-  UPDATE_POST
+  UPDATE_POST,
+  ADD_COMMENT
 } from './modules/post/postTypes';
 
-import { ADD_COMMENT } from './modules/comment/commentTypes';
-
 import { authLogin, authRegister } from './modules/auth/authSaga';
-import { getPosts, getPost, addPost, updatePost } from './modules/post/postSaga';
-import { addComment } from './modules/comment/commentSaga';
+import { getPosts, getPost, addPost, updatePost, addComment } from './modules/post/postSaga';
 
 export function* authRegisterSaga() {
   yield takeLatest(AUTH_REGISTER, authRegister)
@@ -25,6 +23,10 @@ export function* authRegisterSaga() {
 
 export function* authLoginSaga() {
   yield takeLatest(AUTH_LOGIN, authLogin)
+}
+
+export function* getPostsSaga() {
+  yield takeLatest(GET_POSTS, getPosts)
 }
 
 export function* getPostSaga() {
@@ -37,10 +39,6 @@ export function* addPostSaga() {
 
 export function* updatePostSaga() {
   yield takeLatest(UPDATE_POST, updatePost)
-}
-
-export function* getPostsSaga() {
-  yield takeLatest(GET_POSTS, getPosts)
 }
 
 export function* addCommentSaga() {

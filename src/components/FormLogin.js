@@ -1,5 +1,6 @@
 import React from 'react';
-import { useForm } from './../hooks/useForm';
+import useForm from './../hooks/useForm';
+import { Link } from 'react-router-dom';
 import Button from './Button';
 
 const FormLogin = ({ onClick }) => {
@@ -30,12 +31,12 @@ const FormLogin = ({ onClick }) => {
             <input className="form-field" type="password" name="password" id="password" value={values.password} onChange={(e) => handleChange('password', e.target.value)}/>
           </div>
 
-          <Button text="Login" disabled={processing} />
+          <Button label="Login" disabled={processing} />
         </form>
         <p className="form-text">
-          <button className="form-text-link" onClick={onClick}>
+          <Link to="/" className="form-text-link" onClick={onClick}>
             No account yet? <span>Register Here</span>
-          </button>
+          </Link>
         </p>
       </div>
     </>

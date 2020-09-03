@@ -4,6 +4,7 @@ import {
   ADD_POST,
   UPDATE_POST,
   GET_UPDATED_POST,
+  ADD_COMMENT,
 } from './postTypes'
 
 export function getPosts(data) {
@@ -37,6 +38,13 @@ export function updatePost(data) {
 export function getUpdatedPost(data) {
   return {
     type: GET_UPDATED_POST,
+    payload: data
+  };
+}
+
+export function addComment(data) {
+  return {
+    type: ADD_COMMENT,
     payload: data
   };
 }

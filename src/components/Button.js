@@ -5,14 +5,14 @@ import './Button.scss'
 
 const Button = ({
   modifier,
+  label,
   disabled = false,
-  text = 'Load More',
   onClick = () => {}
 }) => {
   return (
     <>
       <button className={`button ${modifier}`} onClick={disabled ? disabled : onClick}>
-        {text}
+        {label}
       </button>
     </>
   )
@@ -20,9 +20,9 @@ const Button = ({
 
 Button.propTypes = {
   modifier: PropTypes.any,
+  label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  text: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func,
 }
 
 export default Button;

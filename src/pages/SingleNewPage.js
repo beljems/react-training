@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
-import { getPosts, getPost, addPost } from './../redux/modules/post/postActions'
+import usePost from './../hooks/usePost'
 
 import Breadcrumbs from './../components/Breadcrumbs';
 import Button from './../components/Button';
@@ -16,9 +15,8 @@ import { DELAY } from './../utils/constants'
 
 const SingleNewPage = () => {
   const dateToday = new Date();
-  const dispatch = useDispatch();
   const history = useHistory();
-  const { post, updating } = useSelector(state => state.post);
+  const { posts, addPost } = usePost();
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState('');
   const [image, setImage] = useState('');
@@ -27,14 +25,6 @@ const SingleNewPage = () => {
     content: '',
     image: '',
   });
-
-  useEffect(() => {
-    if(updating) {
-      dispatch(getPost({ id: post.id }))
-      dispatch(getPosts())
-      history.push(`/news/${post.id}`)
-    }
-  }, [history, updating, post, dispatch])
 
   const handleChange = (id, value) => {
     setValues({
@@ -48,7 +38,8 @@ const SingleNewPage = () => {
 
     if(values.title !== '' || values.title.length > 0) {
       if(image) values.image = image
-      dispatch(addPost({ post: { ...values } }))
+      addPost({ post: { ...values } })
+      history.push(`/news/${posts.length + 1}`)
     } else {
       setMessage('Title must not be empty!');
     }
@@ -81,10 +72,10 @@ const SingleNewPage = () => {
           <div className="content-header">
             <div className="content-header-item content-header-item-right">
               <div className="content-header-link">
-                <Button modifier="button-default" text="Save Post" />
+                <Button modifier="button-default" label="Save Post" />
               </div>
               <div className="content-header-link">
-                <Button modifier="button-default" text="Cancel" onClick={e => handleCancel(e)} />
+                <Button modifier="button-default" label="Cancel" onClick={e => handleCancel(e)} />
               </div>
             </div>
           </div>

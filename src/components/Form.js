@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import FormLogin from './FormLogin';
 import FormRegister from './FormRegister';
 import './Form.scss';
 
-const Form = ({ className = '' }) => {
-  const [active, setActive] = useState(false);
+import { authError } from './../redux/modules/auth/authActions'
 
-  const handleClick = () => setActive(!active);
+const Form = ({ className = '' }) => {
+  const dispatch = useDispatch();
+  const [active, setActive] = useState(false);
+  const handleClick = () => {
+    setActive(!active)
+    dispatch(authError())
+  };
 
   return (
     <div className={`form ${className}`}>
-      {!active ? <FormLogin onClick={() => handleClick()}/> : <FormRegister onClick={() => handleClick()}/>}
+      {!active ? <FormLogin onClick={() => handleClick()} /> : <FormRegister onClick={() => handleClick()} />}
     </div>
   );
 }

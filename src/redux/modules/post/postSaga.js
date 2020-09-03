@@ -7,7 +7,8 @@ import {
   GET_POSTS,
   GET_POST,
   ADD_POST,
-  UPDATE_POST
+  UPDATE_POST,
+  ADD_COMMENT,
 } from './postTypes';
 
 function* getPostsReq(data = {}) {
@@ -29,6 +30,10 @@ function* addPostReq(data) {
 
 function* updatePostReq(data) {
   return yield call(useMutation, queries.UPDATE_POST, data);
+}
+
+function* addCommentReq(data = {}) {
+  return yield call(useMutation, queries.ADD_COMMENT, data)
 }
 
 export function* getPosts(action) {
@@ -64,5 +69,14 @@ export function* updatePost(action) {
     yield put({ type: `${UPDATE_POST}_SUCCESS`, payload: post })
   } catch(error) {
     yield put({ type: `${UPDATE_POST}_FAIL`, payload: error })
+  }
+}
+
+export function* addComment(action) {
+  try {
+    const { data: comment } = yield addCommentReq(action.payload)
+    yield put({ type: `${ADD_COMMENT}_SUCCESS`, payload: comment })
+  } catch(error) {
+    yield put({ type: `${ADD_COMMENT}_FAIL`, payload: error })
   }
 }

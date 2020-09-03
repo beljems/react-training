@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
-import { addComment } from './../redux/modules/comment/commentActions'
+//import { addComment } from './../redux/modules/comment/commentActions'
+import usePost from './../hooks/usePost'
 
 import Button from './Button';
 import Loading from './Loading'
@@ -10,11 +11,11 @@ import './Comment.scss';
 
 const Comment = ({ postId, comments }) => {
   const dispatch = useDispatch();
-  const { comment } = useSelector(state => state.comment.comment);
-  const [contents, setContents] = useState(comments);
+  const { post, getPost, comment, addComment } = usePost(postId);
+  const [contents, setContents] = useState([]);
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [message, setMessage] = useState(false);
 
   function getDurationTimeSince(date) {
     let seconds = Math.floor((new Date() - moment(date)) / 1000),
@@ -33,20 +34,32 @@ const Comment = ({ postId, comments }) => {
   }
 
   useEffect(() => {
+    setContents(comments)
+  }, [comments])
+
+  useEffect(() => {
     if(comment) {
-      setContents(newContents => [comment, ...newContents])
-      setValue('')
-      setLoading(false)
-      setError(false)
+        //const postComments = [comment, ...comments.filter(item => item.id !== comment.id)]
+        //setContents(prev => [...postComments, ...prev])
+      if(comment.comment) {
+        setContents(prevComments => [comment.comment, ...prevComments])
+        setValue('')
+        setLoading(false)
+        setMessage(false)
+
+        console.log(comment.comment)
+      }
     }
-  }, [comment])
+  }, [postId, comment])
 
   const handleClick = e => {
     e.preventDefault();
 
     if(value.length > 0) {
-      dispatch(addComment({ postId: postId, content: value }));
+      addComment({ postId: parseInt(postId), content: value })
       setLoading(true);
+    } else {
+      setMessage(true)
     }
   }
 
@@ -65,10 +78,10 @@ const Comment = ({ postId, comments }) => {
           <li className="comment-item comment-item-textarea">
             <textarea placeholder="Write comment" value={value} onChange={(e) => setValue(e.target.value)}></textarea>
           </li>
-          {error ? <p class="message message-comment error">Please add comment!</p> : ''}
+          {message ? <p class="message message-comment error">Please add comment!</p> : ''}
         </ul>
         <div className="comment-button">
-          <Button text="Submit" onClick={(e) => handleClick(e)} />
+          <Button label="Submit" onClick={(e) => handleClick(e)} />
         </div>
       </div>
     </div>

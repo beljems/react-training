@@ -69,7 +69,7 @@ const Upload = ({ value, callback }) => {
           type="file"
           accept="image/*"
           onChange={(e) => handleUpload(e)} />
-        <Button text="Upload Image" />
+        <Button label="Upload Image" />
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export const useAuth = props => {
+export default () => {
   const authToken = localStorage.getItem('token');
   const [isLoggedIn, setIsLoggedIn] = useState('');
 
